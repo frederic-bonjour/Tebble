@@ -1,39 +1,7 @@
 #include <Arduino.h>
 #include <NeoPixelBus.h>
-#include "Display.h"
+#include "GraphicContext.h"
 #include <math.h>
-
-NeoPixelBus<NeoGrbFeature, Neo800KbpsMethod> strip(289, 6);
-NeoTopology<RowMajorAlternatingLayout> topo(17, 17);
-
-
-Display* screen = new Display();
-
-
-Display::Display() {
-  gc = createContext();
-}
-
-
-Display::~Display() {
-  delete gc;
-}
-
-GraphicContext* Display::createContext() {
-  return new GraphicContext(SCREEN_WIDTH, SCREEN_HEIGHT);
-}
-
-GraphicContext* Display::getContext() {
-  return gc;
-}
-
-void Display::setContext(GraphicContext* newGC) {
-  gc = newGC;
-}
-
-
-//-------
-
 
 GraphicContext::GraphicContext(uint8_t w, uint8_t h) {
   pixels = new RgbColor[w * h];
@@ -97,34 +65,4 @@ GraphicContext* GraphicContext::copy(int8_t srcX, int8_t srcY, int8_t width, int
   		}
   	}
   return this;
-}
-
-
-//------
-
-
-SlideDownTransition::SlideDownTransition(Runnable* rin, Runnable* rout) : Transition(rin, rout) {
-  frameIndex = 0;
-  frameCount = SCREEN_HEIGHT;
-}
-
-
-Transition::Transition(Runnable* rin, Runnable* rout) {
-  in = rin;
-  out = rout;
-  gcIn = screen->createContext();
-  gcOut = screen->createContext();
-}
-
-
-void SlideDownTransition::draw(GraphicContext* gc) {
-
-  gcOut->copy(0, 0, gc->getWidth(), gc->getHeight() - frameIndex, gc, 0, frameIndex);
-  gcIn->copy(0, gc->getHeight() - frameIndex, gc->getWidth(), frameIndex, gc, 0, 0);
-
-	if (frameIndex < frameCount) {
-		frameIndex++;
-	} else {
-		// TODO end();
-	}
 }
