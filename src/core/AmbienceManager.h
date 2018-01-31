@@ -27,6 +27,9 @@ class AmbienceManager {
         void registerAmbience(String id, Ambience* ambience);
         void load();
 
+        Ambience* getAmbience();
+        void setAmbience(String id);
+        unsigned int count();
 };
 
 #endif

@@ -46,19 +46,21 @@ void AmbienceManager::load() {
 
     String line;
     bool body = false;
+    uint8_t ambienceCount = 0;
     while (client.available()) {
         line = client.readStringUntil('\r');
         line.trim();
         if (line.length() == 0) {
-        body = true;
-        continue;
+            body = true;
+            continue;
         }
         if (body) {
-        //ambiencesById[ambienceCount] = Ambience::createFromString(line);
+            registerAmbience(String(ambienceCount), Ambience::createFromString(line));
+            ambienceCount++;
         }
     }
 
-  //Serial.printf("Loaded ambiences: %d\r\n", ambiencesById.size());
+    Serial.printf("Loaded ambiences: %d\r\n", ambiencesById.size());
 }
 
 
@@ -66,5 +68,24 @@ void AmbienceManager::registerAmbience(String id, Ambience* ambience) {
     ambiencesById[id] = ambience;
     if (ambiencesById.size() == 1) {
         currentAmbience = ambience;
+        Serial.println(currentAmbience->getName());
     }
+}
+
+
+Ambience* AmbienceManager::getAmbience() {
+    return currentAmbience;
+}
+
+
+void AmbienceManager::setAmbience(String id) {
+    AmbiencesById::iterator iter = ambiencesById.find(id);
+    if (iter != ambiencesById.end()) {
+        currentAmbience = ambiencesById[id];
+    }
+}
+
+
+unsigned int AmbienceManager::count() {
+    return ambiencesById.size();
 }

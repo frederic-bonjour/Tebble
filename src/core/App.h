@@ -5,10 +5,11 @@
 #include <NeoPixelBus.h>
 
 #include "core.h"
+#include "Runnable.h"
 #include "Ambience.h"
 
 
-class App : Runnable
+class App : public Runnable
 {
   protected:
 

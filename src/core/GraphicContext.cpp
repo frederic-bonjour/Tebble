@@ -34,11 +34,24 @@ GraphicContext* GraphicContext::setPixel(int8_t x, int8_t y, RgbColor color) {
 }
 
 
+GraphicContext* GraphicContext::plot(int8_t x, int8_t y) {
+  return setPixel(x, y, drawColor);
+}
+
+
 RgbColor GraphicContext::getPixel(int8_t x, int8_t y) {
   if (x < 0 || x >= width || y < 0 || y >= height) {
     return RgbColor(0, 0, 0);
   }
   return pixels[x + y * width];
+}
+
+
+GraphicContext* GraphicContext::horizontalLine(int8_t y) {
+  for (int8_t x=0 ; x<width; x++) {
+		this->setPixel(x, y, drawColor);
+	}
+  return this;
 }
 
 
@@ -50,11 +63,74 @@ GraphicContext* GraphicContext::horizontalLine(int8_t x1, int8_t x2, int8_t y) {
 }
 
 
+GraphicContext* GraphicContext::verticalLine(int8_t x) {
+  for (int8_t y=0 ; y<height ; y++) {
+    this->setPixel(x, y, drawColor);
+  }
+  return this;
+}
+
+
 GraphicContext* GraphicContext::verticalLine(int8_t x, int8_t y1, int8_t y2) {
   for (int8_t y=y1 ; y<=y2 ; y++) {
     this->setPixel(x, y, drawColor);
   }
   return this;
+}
+
+
+GraphicContext* GraphicContext::rectangle(int8_t x, int8_t y, int8_t w, int8_t h) {
+  for (int8_t i=x; i < x+w; i++) {
+    this->plot(i, y)->plot(i, y+h);
+  }
+  for (int8_t i=y; i < y+h; i++) {
+    this->plot(x, i)->plot(x+w, i);
+  }
+  return this;
+}
+
+
+GraphicContext* GraphicContext::setFillColor(RgbColor color) {
+  fillColor = color;
+  return this;
+}
+
+
+GraphicContext* GraphicContext::setDrawColor(RgbColor color) {
+  drawColor = color;
+  return this;
+}
+
+
+GraphicContext* GraphicContext::fill() {
+  for (int8_t y=0 ; y<height ; y++) {
+    for (int8_t x=0 ; x<width ; x++) {
+      this->setPixel(x, y, fillColor);
+    }
+  }
+  return this;
+}
+
+
+GraphicContext* GraphicContext::clear() {
+  RgbColor clearColor(0, 0, 0);
+  for (int8_t y=0 ; y<height ; y++) {
+    for (int8_t x=0 ; x<width ; x++) {
+      this->setPixel(x, y, clearColor);
+    }
+  }
+  return this;
+}
+
+
+GraphicContext* GraphicContext::verticalGradient(RgbColor from, RgbColor to) {
+  double step = 1.0 / height;
+  float progress = 0;
+  for (uint8_t y=0; y<height; y++) {
+      setDrawColor(RgbColor::LinearBlend(from, to, progress));
+      horizontalLine(y);
+      progress += step;
+  }
 }
 
 

@@ -8,6 +8,8 @@
 #include "core/TaskManager.h"
 #include "core/AmbienceManager.h"
 
+#include "apps/UI/UIProgress.h"
+
 #include "apps/Gradient/GradientApp.h"
 
 
@@ -26,9 +28,9 @@ String deviceName;
 
 
 void initDeviceId(String ipAddress) {
-    int p = ipAddress.lastIndexOf('.');
-    clientID = ipAddress.substring(p + 1);
-    Serial.print("Device ID      : "); Serial.println(clientID);
+  int p = ipAddress.lastIndexOf('.');
+  clientID = String("Tebble-") + ipAddress.substring(p + 1);
+  Serial.print("Device ID: "); Serial.println(clientID);
 }
 
 
@@ -85,49 +87,89 @@ void receivedMessage(char* topic, byte* payload, unsigned int length) {
 
 
 void setup() {
-    // Init Serial object.
-    Serial.begin(115200);
+  // Init Serial object.
+  Serial.begin(9600);
+  while (!Serial);
 
-    // Init LED display.
-    Display::get().init();
 
-    // Register apps in the TaskManager.
-    TaskManager::get().registerApp("Gradient", new GradientApp);
+  // Init LED display.
+  Display::get().init();
 
-    // Connect to WiFi
-    Serial.print("Connecting to WiFi network ");
-    Serial.println(Settings::WifiSSID);
-    WiFi.begin(Settings::WifiSSID.c_str(), Settings::WifiPassword.c_str());
 
-    // Wait until the connection has been confirmed before continuing
-    while (WiFi.status() != WL_CONNECTED) {
-        delay(500);
-        Serial.print(".");
-    }
-    Serial.println("Connected to WiFi.");
-    Serial.print("IP address: ");
-    Serial.println(WiFi.localIP());
+  // Init TaskManager.
+  TaskManager &tm = TaskManager::get();
 
-    // Connect to MQTT Broker
-    // setCallback sets the function to be called when a message is received.
-    pubSubClient.setCallback(receivedMessage);
 
-    Serial.print("Connecting to MQTT broker ");
-    Serial.println(Settings::MQTTBroker);
+  // Connect to WiFi
+  Serial.print("Connecting to WiFi network ");
+  Serial.println(Settings::WifiSSID);
+  WiFi.begin(Settings::WifiSSID.c_str(), Settings::WifiPassword.c_str());
+ // Wait until the connection has been confirmed before continuing
+  while (WiFi.status() != WL_CONNECTED) {
+      delay(500);
+      Serial.print(".");
+  }
+  Serial.println("Connected to WiFi.");
+  Serial.print("IP address: ");
+  Serial.println(WiFi.localIP());
 
-    while (!mqttConnect()) {
-        delay(1000);
-        Serial.print(".");
-    }
-    Serial.println("Connected to MQTT broker.");
 
-    sendAliveMessage();
-    
-    // Load ambiences.
-    AmbienceManager::get().load();
+  // Device identification
+  SPIFFS.begin();
+  File f = SPIFFS.open("/dev-id.txt", "r");
+  if (!f) {
+    Serial.println("No ID file found.");
+    deviceNumber = 0;
+    deviceName = "Tebble";
+  } else {
+    String s = f.readStringUntil('\n');
+    char devname[50];
+    sscanf(s.c_str(), "%d %s", &deviceNumber, devname);
+    deviceName = String(devname);
+    f.close();
+  }
+  Serial.print("Device name: "); Serial.println(deviceName);
+  Serial.print("Device group: "); Serial.println(deviceNumber);
+  initDeviceId(WiFi.localIP().toString());
+
+
+  // Register apps in the TaskManager.
+  tm.registerApp("Gradient", new GradientApp);
+
+/*
+  // Connect to MQTT Broker
+  // setCallback sets the function to be called when a message is received.
+  pubSubClient.setCallback(receivedMessage);
+  Serial.print("Connecting to MQTT broker ");
+  Serial.println(Settings::MQTTBroker);
+
+  while (!mqttConnect()) {
+      delay(500);
+      Serial.print(".");
+  }
+  Serial.println("Connected to MQTT broker.");
+
+  sendAliveMessage();
+*/
+  // Load ambiences.
+  AmbienceManager::get().load();
+
+  Serial.println("Tebble is ready.");
 }
 
+unsigned long int t = 0;
+unsigned int ambience = 0;
 
 void loop() {
-    TaskManager::get().loop();
+  TaskManager::get().loop();
+  Display::get().render();
+
+  if (millis() - t > 5000) {
+    t = millis();
+    ambience++;
+    if (ambience >= AmbienceManager::get().count()) {
+      ambience = 0;
+    }
+    AmbienceManager::get().setAmbience(String(ambience));
+  }
 }

@@ -18,9 +18,22 @@ public:
 
   GraphicContext* setPixel(int8_t x, int8_t y, RgbColor color);
   RgbColor getPixel(int8_t x, int8_t y);
+  GraphicContext* plot(int8_t x, int8_t y);
 
+  GraphicContext* horizontalLine(int8_t y);
   GraphicContext* horizontalLine(int8_t x1, int8_t x2, int8_t y);
+  GraphicContext* verticalLine(int8_t x);
   GraphicContext* verticalLine(int8_t x, int8_t y1, int8_t y2);
+  
+  GraphicContext* setFillColor(RgbColor color);
+  GraphicContext* setDrawColor(RgbColor color);
+  GraphicContext* fill();
+  GraphicContext* clear();
+
+  GraphicContext* rectangle(int8_t x, int8_t y, int8_t w, int8_t h);
+
+  GraphicContext* verticalGradient(RgbColor from, RgbColor to);
+
 
   GraphicContext* copy(int8_t srcX, int8_t srcY, int8_t width, int8_t height, GraphicContext* dstGC, int8_t dstX, int8_t dstY);
 

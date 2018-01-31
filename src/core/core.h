@@ -18,15 +18,4 @@ class Settings {
         static String MQTTPassword;
 };
 
-
-class Runnable {
-    protected:
-        virtual void run(unsigned long time) = 0;
-
-    public:
-        void loop() {
-            run(millis());
-        }
-};
-
 #endif

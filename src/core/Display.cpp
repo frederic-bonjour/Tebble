@@ -39,3 +39,13 @@ GraphicContext* Display::getContext() {
 void Display::setContext(GraphicContext* newGC) {
   gc = newGC;
 }
+
+
+void Display::render() {
+  for (int8_t y=0; y<gc->getHeight(); y++) {
+    for (int8_t x=0; x<gc->getWidth(); x++) {
+      leds.SetPixelColor(x + y * SCREEN_WIDTH, gc->getPixel(x, y));
+    }
+  }
+  leds.Show();
+}

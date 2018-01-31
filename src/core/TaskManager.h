@@ -2,9 +2,10 @@
 #define _TaskManager_H_
 
 #include "core.h"
+#include "Runnable.h"
 #include <map>
 
-typedef std::map<String, Runnable*> AppsById;
+typedef std::map<String, Runnable*> IdRunnableMap;
 
 
 class TaskManager {
@@ -13,7 +14,8 @@ class TaskManager {
     TaskManager();
 
     Runnable *currentRunnable;
-    AppsById appsById;
+    IdRunnableMap appsById;
+    IdRunnableMap uiById;
 
     public:
         static TaskManager &get() noexcept {
@@ -23,6 +25,8 @@ class TaskManager {
         void loop();
         void setRunnable(String id);
         void registerApp(String id, Runnable* runnable);
+        void registerUI(String id, Runnable* runnable);
+        void showUI(String id);
 
 };
 
