@@ -13,11 +13,17 @@
 class Display
 {
   private:
+    static Display display;
+
+    Display();
+    ~Display();
     GraphicContext* gc;
 
   public:
-    Display();
-    ~Display();
+
+    static Display &get() noexcept {
+        return display;
+    }
 
     GraphicContext* createContext();
     void deleteContext(GraphicContext* gc);
@@ -25,6 +31,7 @@ class Display
     GraphicContext* getContext();
     void setContext(GraphicContext* newGc);
 
+    void init();
     void render();
 };
 

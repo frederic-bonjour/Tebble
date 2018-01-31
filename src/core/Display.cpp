@@ -3,15 +3,21 @@
 #include "Display.h"
 #include "GraphicContext.h"
 
-NeoPixelBus<NeoGrbFeature, Neo800KbpsMethod> strip(289, 6);
+NeoPixelBus<NeoGrbFeature, NeoEsp8266Uart800KbpsMethod> leds(SCREEN_WIDTH * SCREEN_HEIGHT);
+NeoGamma<NeoGammaTableMethod> colorGamma;
 NeoTopology<RowMajorAlternatingLayout> topo(17, 17);
 
 
-Display* screen = new Display();
+Display Display::display;
 
 
 Display::Display() {
   gc = createContext();
+}
+
+
+void Display::init() {
+  leds.Begin();
 }
 
 
