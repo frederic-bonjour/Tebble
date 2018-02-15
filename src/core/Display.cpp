@@ -5,7 +5,6 @@
 
 NeoPixelBus<NeoGrbFeature, NeoEsp8266Uart800KbpsMethod> leds(SCREEN_WIDTH * SCREEN_HEIGHT);
 NeoGamma<NeoGammaTableMethod> colorGamma;
-NeoTopology<RowMajorAlternatingLayout> topo(17, 17);
 
 
 Display Display::display;

@@ -1,12 +1,20 @@
 #include <Arduino.h>
 #include <NeoPixelBus.h>
-#include "GraphicContext.h"
 #include <math.h>
+
+#include "GraphicContext.h"
+#include "fonts/FontManager.h"
+
+NeoTopology<RowMajorLayout> topo(17, 17);
+
+FontManager &fm = FontManager::get();
+
 
 GraphicContext::GraphicContext(uint8_t w, uint8_t h) {
   pixels = new RgbColor[w * h];
   width = w;
   height = h;
+  font = fm.getFont("square");
 }
 
 
@@ -28,6 +36,9 @@ uint8_t GraphicContext::getHeight() {
 GraphicContext* GraphicContext::setPixel(int8_t x, int8_t y, RgbColor color) {
   if (x < 0 || x >= width || y < 0 || y >= height) {
     return this;
+  }
+  if (y & 1) {
+    x = width - 1 - x;
   }
   pixels[x + y * width] = color;
   return this;
@@ -65,7 +76,7 @@ GraphicContext* GraphicContext::horizontalLine(int8_t x1, int8_t x2, int8_t y) {
 
 GraphicContext* GraphicContext::verticalLine(int8_t x) {
   for (int8_t y=0 ; y<height ; y++) {
-    this->setPixel(x, y, drawColor);
+    plot(x, y);
   }
   return this;
 }
@@ -97,6 +108,12 @@ GraphicContext* GraphicContext::setFillColor(RgbColor color) {
 
 
 GraphicContext* GraphicContext::setDrawColor(RgbColor color) {
+  drawColor = color;
+  return this;
+}
+
+
+GraphicContext* GraphicContext::setColor(RgbColor color) {
   drawColor = color;
   return this;
 }
@@ -141,4 +158,30 @@ GraphicContext* GraphicContext::copy(int8_t srcX, int8_t srcY, int8_t width, int
   		}
   	}
   return this;
+}
+
+
+uint8_t GraphicContext::drawChar(int8_t x, int8_t y, char c) {
+  uint8_t h = font->getHeight();
+  uint8_t* ch = font->getChar(c);
+  uint8_t cw = font->getCharWidth(c);
+
+  for (uint8_t l=0; l<h; l++) {
+    uint8_t def = ch[l];
+    for (uint8_t b=0; b<cw; b++) {
+      if (def & (1<<b)) {
+        plot(x + cw - 1 - b, y + l);
+      }
+    }
+  }
+
+  return cw;
+}
+
+
+GraphicContext* GraphicContext::text(int8_t x, int8_t y, String text) {
+  for (uint16_t i=0; i<text.length(); i++) {
+    char c = text.charAt(i);
+    x += drawChar(x, y, c);
+  }
 }

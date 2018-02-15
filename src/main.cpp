@@ -11,6 +11,7 @@
 #include "apps/UI/UIProgress.h"
 
 #include "apps/Gradient/GradientApp.h"
+#include "apps/Clock/ClockApp.h"
 
 
 WiFiClient wifiClient;
@@ -61,9 +62,9 @@ bool mqttConnect() {
   // Connect to MQTT Server and subscribe to the topics
   if (pubSubClient.connect(clientID.c_str())) {
 
-    pubSubClient.subscribe("luciol/all");
-    pubSubClient.subscribe((String("luciol/nb-") + deviceNumber).c_str());
-    pubSubClient.subscribe((String("luciol/id-") + clientID).c_str());
+    pubSubClient.subscribe("B2D/all");
+    pubSubClient.subscribe((String("B2D/N/") + deviceNumber + "/+").c_str());
+    pubSubClient.subscribe((String("B2D/I/") + clientID + "/+").c_str());
 
     return true;
   } else {
@@ -73,7 +74,7 @@ bool mqttConnect() {
 
 
 void sendAliveMessage() {
-  pubSubClient.publish("luciol/alive", (clientID + '@' + deviceNumber + ' ' + deviceName).c_str());
+  pubSubClient.publish("D2B/alive", (clientID + '@' + deviceNumber + ' ' + deviceName).c_str());
 }
 
 
@@ -134,7 +135,8 @@ void setup() {
 
 
   // Register apps in the TaskManager.
-  tm.registerApp("Gradient", new GradientApp);
+  //tm.registerApp("Gradient", new GradientApp);
+  tm.registerApp("Clock", new ClockApp);
 
 /*
   // Connect to MQTT Broker
@@ -164,12 +166,12 @@ void loop() {
   TaskManager::get().loop();
   Display::get().render();
 
-  if (millis() - t > 5000) {
+  /*if (millis() - t > 5000) {
     t = millis();
     ambience++;
     if (ambience >= AmbienceManager::get().count()) {
       ambience = 0;
     }
     AmbienceManager::get().setAmbience(String(ambience));
-  }
+  }*/
 }
