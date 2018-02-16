@@ -1,26 +1,27 @@
 #ifndef _TaskManager_H_
 #define _TaskManager_H_
 
+#include <map>
+
 #include "core.h"
 #include "Runnable.h"
-#include <map>
+#include "Singleton.h"
 
 typedef std::map<String, Runnable*> IdRunnableMap;
 
 
-class TaskManager {
+class TaskManager : public Singleton<TaskManager> {
 
-    static TaskManager instance;
-    TaskManager();
+    friend class Singleton<TaskManager>;
 
-    Runnable *currentRunnable;
-    IdRunnableMap appsById;
-    IdRunnableMap uiById;
+    private:
+        TaskManager();
+
+        Runnable *currentRunnable;
+        IdRunnableMap appsById;
+        IdRunnableMap uiById;
 
     public:
-        static TaskManager &get() noexcept {
-            return instance;
-        }
 
         void loop();
         void setRunnable(String id);

@@ -1,16 +1,16 @@
 #include <Arduino.h>
-#include "SquareFont.h"
+#include "CondensedFont.h"
 
 
-SquareFont::SquareFont() {}
+CondensedFont::CondensedFont() {}
 
 
-uint8_t SquareFont::getCharWidth(char c) {
+uint8_t CondensedFont::getCharWidth(char c) {
     return 5;
 }
 
 
-uint8_t SquareFont::getCharIndex(char ch) {
+uint8_t CondensedFont::getCharIndex(char ch) {
     if (ch >= 48 && ch <= 57) {
         ch -= 48;
     } else if (ch >= 97 && ch <= 122) {
@@ -32,7 +32,7 @@ uint8_t SquareFont::getCharIndex(char ch) {
 }
 
 
-uint8_t* SquareFont::getChar(char c) {
+uint8_t* CondensedFont::getChar(char c) {
     uint8_t index = getCharIndex(c);
     if (index < SquareFontCharCount) {
         return chars[index];
@@ -41,17 +41,17 @@ uint8_t* SquareFont::getChar(char c) {
 }
 
 
-uint8_t SquareFont::getHeight() {
+uint8_t CondensedFont::getHeight() {
     return 5;
 }
 
 
-bool SquareFont::handlesDiacritics() {
+bool CondensedFont::handlesDiacritics() {
     return false;
 }
 
 
-uint8_t SquareFont::chars[40][5] = {
+uint8_t CondensedFont::chars[40][5] = {
     { 0x1F, 0x11, 0x11, 0x11, 0x1F }, // 0
     { 0x06, 0x02, 0x02, 0x02, 0x02 }, // 1
     { 0x1F, 0x01, 0x1F, 0x10, 0x1F }, // 2

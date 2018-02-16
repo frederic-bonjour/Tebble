@@ -3,6 +3,8 @@
 
 #include <NeoPixelBus.h>
 #include <Arduino.h>
+
+#include "Singleton.h"
 #include "GraphicContext.h"
 
 #define NUM_LEDS 289
@@ -10,20 +12,17 @@
 #define SCREEN_HEIGHT 17
 
 
-class Display
+class Display : public Singleton<Display>
 {
+  friend class Singleton<Display>;
+
   private:
-    static Display display;
 
     Display();
     ~Display();
     GraphicContext* gc;
 
   public:
-
-    static Display &get() noexcept {
-        return display;
-    }
 
     GraphicContext* createContext();
     void deleteContext(GraphicContext* gc);

@@ -3,8 +3,6 @@
 #include "Display.h"
 #include "AmbienceManager.h"
 
-TaskManager TaskManager::instance;
-
 
 TaskManager::TaskManager() {
     currentRunnable = NULL;

@@ -7,7 +7,7 @@ NeoPixelBus<NeoGrbFeature, NeoEsp8266Uart800KbpsMethod> leds(SCREEN_WIDTH * SCRE
 NeoGamma<NeoGammaTableMethod> colorGamma;
 
 
-Display Display::display;
+//Display Display::display;
 
 
 Display::Display() {

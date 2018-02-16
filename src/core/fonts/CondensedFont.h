@@ -1,5 +1,5 @@
-#ifndef _SquareFont_H_
-#define _SquareFont_H_
+#ifndef _CondensedFont_H_
+#define _CondensedFont_H_
 
 #include <Arduino.h>
 
@@ -8,14 +8,14 @@
 
 #define SquareFontCharCount 40
 
-class SquareFont : public Font, public Singleton<SquareFont>
+class CondensedFont : public Font, public Singleton<CondensedFont>
 {
-  friend class Singleton<SquareFont>;
+  friend class Singleton<CondensedFont>;
 
   private:
 
     static uint8_t chars[SquareFontCharCount][5];
-    SquareFont();
+    CondensedFont();
 
   public:
 

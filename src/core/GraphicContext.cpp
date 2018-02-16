@@ -162,26 +162,29 @@ GraphicContext* GraphicContext::copy(int8_t srcX, int8_t srcY, int8_t width, int
 
 
 uint8_t GraphicContext::drawChar(int8_t x, int8_t y, char c) {
-  uint8_t h = font->getHeight();
   uint8_t* ch = font->getChar(c);
-  uint8_t cw = font->getCharWidth(c);
 
-  for (uint8_t l=0; l<h; l++) {
-    uint8_t def = ch[l];
-    for (uint8_t b=0; b<cw; b++) {
-      if (def & (1<<b)) {
-        plot(x + cw - 1 - b, y + l);
+  if (ch != NULL) {
+    uint8_t h  = font->getHeight();
+    uint8_t cw = font->getCharWidth(c);
+
+    for (uint8_t l=0; l<h; l++) {
+      uint8_t def = ch[l];
+      for (uint8_t b=0; b<cw; b++) {
+        if (def & (1<<b)) {
+          plot(x + cw - 1 - b, y + l);
+        }
       }
     }
-  }
 
-  return cw;
+    return cw;
+  }
+  return 0;
 }
 
 
 GraphicContext* GraphicContext::text(int8_t x, int8_t y, String text) {
   for (uint16_t i=0; i<text.length(); i++) {
-    char c = text.charAt(i);
-    x += drawChar(x, y, c);
+    x += drawChar(x, y, text.charAt(i));
   }
 }

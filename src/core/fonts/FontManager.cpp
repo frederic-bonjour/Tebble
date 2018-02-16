@@ -3,8 +3,6 @@
 
 #include "SquareFont.h"
 
-FontManager FontManager::instance;
-
 
 FontManager::FontManager() {
     fonts["square"] = &SquareFont::get();

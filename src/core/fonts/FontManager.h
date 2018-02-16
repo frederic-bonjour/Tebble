@@ -4,25 +4,23 @@
 #include <Arduino.h>
 #include <map>
 
+#include "../Singleton.h"
 #include "Font.h"
 
 typedef std::map<String, Font*> FontByName;
 
 
-class FontManager
+class FontManager : public Singleton<FontManager>
 {
+  friend class Singleton<FontManager>;
+
   private:
 
-    static FontManager instance;
     FontManager();
 
     FontByName fonts;
 
   public:
-
-    static FontManager &get() noexcept {
-        return instance;
-    }
 
     Font* getFont(String name);
 };
