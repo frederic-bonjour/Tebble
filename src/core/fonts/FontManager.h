@@ -23,6 +23,7 @@ class FontManager : public Singleton<FontManager>
   public:
 
     Font* getFont(String name);
+    bool isFontAvailable(String fontName);
 };
 
 #endif

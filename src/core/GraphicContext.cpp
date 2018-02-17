@@ -7,14 +7,14 @@
 
 NeoTopology<RowMajorLayout> topo(17, 17);
 
-FontManager &fm = FontManager::get();
+FontManager* fm = FontManager::get();
 
 
 GraphicContext::GraphicContext(uint8_t w, uint8_t h) {
   pixels = new RgbColor[w * h];
   width = w;
   height = h;
-  font = fm.getFont("square");
+  font = fm->getFont("condensed");
 }
 
 
@@ -119,6 +119,12 @@ GraphicContext* GraphicContext::setColor(RgbColor color) {
 }
 
 
+GraphicContext* GraphicContext::setFont(String fontName) {
+  font = fm->getFont(fontName);
+  return this;
+}
+
+
 GraphicContext* GraphicContext::fill() {
   for (int8_t y=0 ; y<height ; y++) {
     for (int8_t x=0 ; x<width ; x++) {
@@ -184,7 +190,22 @@ uint8_t GraphicContext::drawChar(int8_t x, int8_t y, char c) {
 
 
 GraphicContext* GraphicContext::text(int8_t x, int8_t y, String text) {
+  uint8_t h  = font->getHeight();
   for (uint16_t i=0; i<text.length(); i++) {
-    x += drawChar(x, y, text.charAt(i));
+    char c = text.charAt(i);
+    uint8_t cw = font->getCharWidth(c);
+    if ((x > -cw) && (x < width) && (y > -h) && (y < height)) {
+      drawChar(x, y, c);
+    }
+    x += cw + 1;
   }
+}
+
+
+uint16_t GraphicContext::getTextWidth(String text) {
+  uint16_t width = 0;
+  for (uint16_t i=0; i<text.length(); i++) {
+    width += font->getCharWidth(text.charAt(i)) + 1;
+  }
+  return width;
 }

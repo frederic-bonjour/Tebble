@@ -12,6 +12,7 @@
 
 #include "apps/Gradient/GradientApp.h"
 #include "apps/Clock/ClockApp.h"
+#include "apps/Text/TextApp.h"
 
 
 WiFiClient wifiClient;
@@ -87,6 +88,9 @@ void receivedMessage(char* topic, byte* payload, unsigned int length) {
 // ----------------------------------------------------------------------------
 
 
+Display* display;
+TaskManager* tm;
+
 void setup() {
   // Init Serial object.
   Serial.begin(9600);
@@ -94,11 +98,12 @@ void setup() {
 
 
   // Init LED display.
-  Display::get().init();
+  display = Display::get();
+  display->init();
 
 
   // Init TaskManager.
-  TaskManager &tm = TaskManager::get();
+  tm = TaskManager::get();
 
 
   // Connect to WiFi
@@ -136,7 +141,8 @@ void setup() {
 
   // Register apps in the TaskManager.
   //tm.registerApp("Gradient", new GradientApp);
-  tm.registerApp("Clock", new ClockApp);
+  tm->registerApp("Text", new TextApp);
+  tm->registerApp("Clock", new ClockApp);
 
 /*
   // Connect to MQTT Broker
@@ -154,7 +160,7 @@ void setup() {
   sendAliveMessage();
 */
   // Load ambiences.
-  AmbienceManager::get().load();
+  AmbienceManager::get()->load();
 
   Serial.println("Tebble is ready.");
 }
@@ -163,15 +169,16 @@ unsigned long int t = 0;
 unsigned int ambience = 0;
 
 void loop() {
-  TaskManager::get().loop();
-  Display::get().render();
-
-  /*if (millis() - t > 5000) {
+  tm->loop();
+  display->render();
+/*
+  if (millis() - t > 5000) {
     t = millis();
     ambience++;
     if (ambience >= AmbienceManager::get().count()) {
       ambience = 0;
     }
     AmbienceManager::get().setAmbience(String(ambience));
-  }*/
+  }
+*/
 }

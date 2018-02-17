@@ -6,7 +6,7 @@
 #include "Font.h"
 #include "../Singleton.h"
 
-#define SquareFontCharCount 40
+#define CondensedFontCharCount 60
 
 class CondensedFont : public Font, public Singleton<CondensedFont>
 {
@@ -14,7 +14,7 @@ class CondensedFont : public Font, public Singleton<CondensedFont>
 
   private:
 
-    static uint8_t chars[SquareFontCharCount][5];
+    static uint8_t chars[CondensedFontCharCount][6];
     CondensedFont();
 
   public:
