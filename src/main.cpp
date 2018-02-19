@@ -42,6 +42,8 @@ D2B/paused          | 4                  | Device number '4' has reached its ani
 --------------------+--------------------+-------------------------------------------------------------
 */
 
+#define DEVICE_TYPE "Tebble"
+
 #include <Arduino.h>
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
@@ -75,7 +77,7 @@ String deviceName;
 
 void initDeviceId(String ipAddress) {
   int p = ipAddress.lastIndexOf('.');
-  clientID = String("Tebble-") + ipAddress.substring(p + 1);
+  clientID = ipAddress.substring(p + 1);
   Serial.print("Device ID: "); Serial.println(clientID);
 }
 
@@ -110,6 +112,7 @@ bool mqttConnect() {
     pubSubClient.subscribe("B2D/all");
     pubSubClient.subscribe((String("B2D/N/") + deviceNumber + "/+").c_str());
     pubSubClient.subscribe((String("B2D/I/") + clientID + "/+").c_str());
+    pubSubClient.subscribe((String("B2D/T/") + DEVICE_TYPE + "/+").c_str());
 
     return true;
   } else {
@@ -119,7 +122,7 @@ bool mqttConnect() {
 
 
 void sendAliveMessage() {
-  pubSubClient.publish("D2B/alive", (clientID + '@' + deviceNumber + ' ' + deviceName).c_str());
+  pubSubClient.publish("D2B/alive", (clientID + '/' + DEVICE_TYPE + '@' + deviceNumber + ' ' + deviceName).c_str());
 }
 
 
