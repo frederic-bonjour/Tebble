@@ -17,9 +17,11 @@ class TaskManager : public Singleton<TaskManager> {
     private:
         TaskManager();
 
-        Runnable *currentRunnable;
+        Runnable *currentRunnable  = NULL;
+        Runnable *previousRunnable = NULL;
         IdRunnableMap appsById;
         IdRunnableMap uiById;
+        bool shouldWakeUpApp = false;
 
     public:
 

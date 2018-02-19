@@ -42,6 +42,7 @@ class GraphicContext {
     GraphicContext* fill();
     GraphicContext* clear();
     GraphicContext* text(int8_t x, int8_t y, String text);
+    uint16_t getTextWidth(String text);
 
     GraphicContext* rectangle(int8_t x, int8_t y, int8_t w, int8_t h);
 

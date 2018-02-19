@@ -5,9 +5,6 @@
 #include "core.h"
 
 
-AmbienceManager AmbienceManager::instance;
-
-
 AmbienceManager::AmbienceManager() {
     currentAmbience = NULL;
 }

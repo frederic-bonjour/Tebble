@@ -7,12 +7,29 @@
 
 
 class Runnable {
+
+    friend class TaskManager;
+
     protected:
+
+        unsigned long lastRunMs = 0;
         virtual void run(GraphicContext* gc, Ambience* ambience, unsigned long time) = 0;
+        
+        virtual uint16_t getRunInterval() {
+            return 1000;
+        }
+
+        virtual void sleep() {}
+        virtual void wakeUp(GraphicContext* gc, Ambience* ambience) {}
 
     public:
+
         void loop(GraphicContext* gc, Ambience* ambience) {
-            run(gc, ambience, millis());
+            unsigned long now = millis();
+            if (now - lastRunMs > getRunInterval()) {
+                run(gc, ambience, now);
+                lastRunMs = now;
+            }
         }
 };
 

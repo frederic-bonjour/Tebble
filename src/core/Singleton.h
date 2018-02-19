@@ -3,17 +3,17 @@
 
 template <class T> class Singleton {
     public:
-        static T& get() noexcept {
-            return m_i;
+        static T* get() noexcept {
+            if (instance == NULL) {
+                instance = new T();
+            }
+            return instance;
         }
 
     protected:
-        static T m_i;
-
-    private:
-        T& operator= (const T&){}
+        static T* instance;
 };
 
-template <class T> T Singleton<T>::m_i = T();
+template <class T> T* Singleton<T>::instance = NULL;
 
 #endif
