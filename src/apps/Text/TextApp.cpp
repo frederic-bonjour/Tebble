@@ -1,23 +1,21 @@
 #include "TextApp.h"
-#include "../../core/GraphicContext.h"
+#include "../../core/Luciol/GraphicContext.h"
 
 
 TextApp::TextApp() {
-    text = "Bienvenue sur Tebble!";
+    text = "Bonne soiree!";
     fontName = "condensed";
 }
 
 
 void TextApp::wakeUp(GraphicContext* gc, Ambience* ambience) {
-    gc->setFillColor(ambience->getSecondaryColor());
-    gc->setFont(fontName);
-    gc->setDrawColor(ambience->getPrimaryColor());
 }
 
 
 void TextApp::run(GraphicContext* gc, Ambience* ambience, unsigned long time) {
-    gc->setFillColor(ambience->getSecondaryColor());
-    gc->setDrawColor(ambience->getPrimaryColor());
+    gc->setFillColor(ambience->getPrimaryColor());
+    gc->setDrawColor(ambience->getSecondaryColor());
+    gc->setFont(fontName);
 
     x++;
     if (x > gc->getTextWidth(text)) {

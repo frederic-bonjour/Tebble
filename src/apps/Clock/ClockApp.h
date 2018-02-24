@@ -1,8 +1,8 @@
 #ifndef _ClockApp_H_
 #define _ClockApp_H_
 
-#include "../../core/Runnable.h"
-#include "../../core/Ambience.h"
+#include "../../core/Luciol/Runnable.h"
+#include "../../core/Luciol/Ambience.h"
 
 
 class ClockApp : public Runnable {

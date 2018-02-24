@@ -1,5 +1,5 @@
 #include "ClockApp.h"
-#include "../../core/GraphicContext.h"
+#include "../../core/Luciol/GraphicContext.h"
 
 
 void ClockApp::run(GraphicContext* gc, Ambience* ambience, unsigned long time) {

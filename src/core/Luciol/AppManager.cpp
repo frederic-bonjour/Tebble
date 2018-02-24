@@ -1,24 +1,25 @@
-#include <Arduino.h>
-#include "TaskManager.h"
+#include "AppManager.h"
 #include "Display.h"
-#include "AmbienceManager.h"
 
 
-TaskManager::TaskManager() {
+extern Display* display;
+
+
+AppManager::AppManager() {
     currentRunnable = NULL;
 }
 
 
-void TaskManager::setRunnable(String id) {
+void AppManager::setRunnable(String id) {
     previousRunnable = currentRunnable;
     currentRunnable = appsById[id];
     shouldWakeUpApp = true;
 }
 
 
-void TaskManager::loop() {
+void AppManager::loop() {
 
-    GraphicContext* gc = Display::get()->getContext();
+    GraphicContext* gc = display->getContext();
     Ambience *amb = AmbienceManager::get()->getAmbience();
 
     if (previousRunnable != NULL) {
@@ -36,20 +37,10 @@ void TaskManager::loop() {
 }
 
 
-void TaskManager::registerApp(String id, Runnable* runnable) {
+void AppManager::registerApp(String id, Runnable* runnable) {
     appsById[id] = runnable;
     if (appsById.size() == 1) {
         currentRunnable = runnable;
         shouldWakeUpApp = true;
     }
-}
-
-
-void TaskManager::registerUI(String id, Runnable* runnable) {
-    uiById[id] = runnable;
-}
-
-
-void TaskManager::showUI(String id) {
-    currentRunnable = uiById[id];
 }

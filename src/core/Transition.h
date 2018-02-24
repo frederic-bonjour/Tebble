@@ -1,9 +1,8 @@
 #ifndef _Transition_H_
 #define _Transition_H_
 
-#include "core.h"
-#include "Runnable.h"
-#include "GraphicContext.h"
+#include "Luciol/Runnable.h"
+#include "Luciol/GraphicContext.h"
 
 // ---------
 

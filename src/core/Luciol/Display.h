@@ -7,9 +7,18 @@
 #include "Singleton.h"
 #include "GraphicContext.h"
 
-#define NUM_LEDS 289
-#define SCREEN_WIDTH  17
-#define SCREEN_HEIGHT 17
+
+#ifdef DEVICE_LUCIOL
+  #define NUM_LEDS 144
+  #define SCREEN_WIDTH  2
+  #define SCREEN_HEIGHT 72
+#endif
+
+#ifdef DEVICE_TEBBLE
+  #define NUM_LEDS 289
+  #define SCREEN_WIDTH  17
+  #define SCREEN_HEIGHT 17
+#endif
 
 
 class Display : public Singleton<Display>
@@ -21,6 +30,7 @@ class Display : public Singleton<Display>
     Display();
     ~Display();
     GraphicContext* gc;
+    static NeoPixelBus<NeoGrbFeature, NeoEsp8266Uart800KbpsMethod> leds;
 
   public:
 
@@ -30,10 +40,7 @@ class Display : public Singleton<Display>
     GraphicContext* getContext();
     void setContext(GraphicContext* newGc);
 
-    void init();
     void render();
 };
-
-
 
 #endif

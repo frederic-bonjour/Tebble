@@ -1,5 +1,5 @@
 #include "UIProgress.h"
-#include "../../core/GraphicContext.h"
+#include "../../core/Luciol/GraphicContext.h"
 
 
 void UIProgress::run(GraphicContext* gc, Ambience* ambience, unsigned long time) {

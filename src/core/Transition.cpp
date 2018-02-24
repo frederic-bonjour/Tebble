@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include "Display.h"
+#include "Luciol/Display.h"
 #include "Transition.h"
 
 extern Display* screen;

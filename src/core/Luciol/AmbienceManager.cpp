@@ -2,7 +2,7 @@
 #include <ESP8266WiFi.h>
 
 #include "AmbienceManager.h"
-#include "core.h"
+#include "Settings.h"
 
 
 AmbienceManager::AmbienceManager() {

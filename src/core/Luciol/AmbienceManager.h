@@ -3,7 +3,7 @@
 
 #include <map>
 
-#include "core.h"
+#include "Settings.h"
 #include "Ambience.h"
 #include "Singleton.h"
 

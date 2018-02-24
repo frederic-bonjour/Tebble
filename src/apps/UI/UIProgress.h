@@ -1,7 +1,7 @@
 #ifndef _UI_Progress_H_
 #define _UI_Progress_H_
 
-#include "../../core/Runnable.h"
+#include "../../core/Luciol/Runnable.h"
 
 
 class UIProgress : public Runnable {

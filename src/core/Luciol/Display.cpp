@@ -1,18 +1,11 @@
-#include <Arduino.h>
-#include <NeoPixelBus.h>
 #include "Display.h"
-#include "GraphicContext.h"
 
-NeoPixelBus<NeoGrbFeature, NeoEsp8266Uart800KbpsMethod> leds(SCREEN_WIDTH * SCREEN_HEIGHT);
-NeoGamma<NeoGammaTableMethod> colorGamma;
+
+NeoPixelBus<NeoGrbFeature, NeoEsp8266Uart800KbpsMethod> Display::leds(SCREEN_WIDTH * SCREEN_HEIGHT);
 
 
 Display::Display() {
   gc = createContext();
-}
-
-
-void Display::init() {
   leds.Begin();
 }
 

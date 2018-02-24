@@ -1,5 +1,5 @@
 #include "GradientApp.h"
-#include "../../core/GraphicContext.h"
+#include "../../core/Luciol/GraphicContext.h"
 
 
 void GradientApp::run(GraphicContext* gc, Ambience* ambience, unsigned long time) {
