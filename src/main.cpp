@@ -51,6 +51,7 @@ D2B/paused          | 4                  | Device number '4' has reached its ani
 #include "apps/Clock/ClockApp.h"
 #include "apps/Gradient/GradientApp.h"
 
+#include "core/Luciol/PropertiesAnimator.h"
 
 // ----------------------------------------------------------------------------
 // Setup
@@ -72,6 +73,13 @@ void setup() {
   luciol->init();
 
   appManager->registerApp("text", new TextApp);
+
+  PropertiesAnimator pa;
+  pa.add("x", new Property<int>(250, -2, 3));
+  pa.add("opacity", new Property<float>(250, 1.0, 0.0));
+  pa.start();
+
+  pa.getFloat("opacity");
 }
 
 
