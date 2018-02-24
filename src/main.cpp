@@ -71,13 +71,7 @@ void setup() {
   luciol = new LuciolDevice();
   luciol->init();
 
-  #ifdef DEVICE_LUCIOL
-    appManager->registerApp("luciol", new LuciolApp);
-  #endif
-
-  #ifdef DEVICE_TEBBLE
-    appManager->registerApp("text", new TextApp);
-  #endif
+  appManager->registerApp("text", new TextApp);
 }
 
 
