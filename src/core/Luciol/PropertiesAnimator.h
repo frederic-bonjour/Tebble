@@ -3,12 +3,17 @@
 
 #include <Arduino.h>
 #include <NeoPixelBus.h>
-
+#include <map>
 
 template <class T> class Property {
-    T from;
-    T to;
-    uint16_t duration;
+
+    friend class PropertiesAnimator;
+
+    protected:
+
+        T from;
+        T to;
+        uint16_t duration;
 
     public:
         Property(uint16_t d, T f, T t) {
@@ -22,6 +27,11 @@ template <class T> class Property {
 class PropertiesAnimator {
 
     uint32_t startTime;
+    uint16_t duration;
+
+    std::map<String, Property<int>*> intProperties;
+    std::map<String, Property<float>*> floatProperties;
+    std::map<String, Property<RgbColor>*> colorProperties;
 
     public:
 
@@ -34,6 +44,7 @@ class PropertiesAnimator {
         RgbColor getColor(String name);
 
         void start();
+        bool isComplete();
 };
 
 #endif
