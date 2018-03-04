@@ -16,6 +16,8 @@ class Settings {
         static uint16_t MQTTPort;
         static String MQTTUsername;
         static String MQTTPassword;
+
+        static String NTPServer;
 };
 
 #endif

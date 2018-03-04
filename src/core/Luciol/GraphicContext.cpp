@@ -239,6 +239,22 @@ GraphicContext* GraphicContext::copy(int16_t srcX, int16_t srcY, int16_t width, 
       return this;
   }
 
+
+  uint8_t GraphicContext::getBitMaskMaxWidth(uint8_t* mask, uint8_t h) {
+      uint8_t max = 0;
+      for (uint8_t l = 0; l < h; l++) {
+        uint8_t def = mask[l];
+        for (uint8_t b = 0; b < 8; b++) {
+          if (def & (1 << b)) {
+            if (b > max) {
+              max = b;
+            }
+          }
+        }
+      }
+      return max + 1;
+  }
+
 #endif
 
 

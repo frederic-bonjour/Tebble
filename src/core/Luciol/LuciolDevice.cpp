@@ -6,11 +6,13 @@
 #include "LuciolDevice.h"
 
 #include "AmbienceManager.h"
+#include "Clock.h"
 
 
 void LuciolDevice::init() {
     connectWiFi();
     initDeviceIdentity();
+    Clock::init();
     initMQTT();
 
     AmbienceManager::get()->load();

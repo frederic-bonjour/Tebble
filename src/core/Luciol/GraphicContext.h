@@ -51,8 +51,10 @@ class GraphicContext {
       uint16_t        drawChar(int16_t x, int16_t y, char c);
       GraphicContext* setFont(String fontName);
       GraphicContext* text(int16_t x, int16_t y, String text);
-      GraphicContext* drawBitMask(int16_t x, int16_t y, uint8_t* mask, uint8_t w, uint8_t h);
       uint16_t getTextWidth(String text);
+
+      uint8_t getBitMaskMaxWidth(uint8_t* mask, uint8_t h);
+      GraphicContext* drawBitMask(int16_t x, int16_t y, uint8_t* mask, uint8_t w, uint8_t h);
     #endif
 
     #ifdef DEVICE_LUCIOL

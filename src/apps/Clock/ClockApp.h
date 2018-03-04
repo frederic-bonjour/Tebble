@@ -8,33 +8,14 @@
 
 class ClockApp : public Runnable {
 
-    PropertiesAnimator pa1in;
-    PropertiesAnimator pa1out;
-
-    PropertiesAnimator pa2in;
-    PropertiesAnimator pa2out;
-
-    PropertiesAnimator pa3in;
-    PropertiesAnimator pa3out;
-
-    PropertiesAnimator pa4in;
-    PropertiesAnimator pa4out;
-
-    unsigned long wakeUpTime;
-
-    byte tick();
-
-    uint8_t hours;
-    uint8_t minutes;
-    String strHours;
-    String strMinutes;
-
-    void updateStrings();
-
+    uint8_t h1, h2;     // Hours digits
+    uint8_t m1, m2;     // Minutes digits
+    uint8_t nh1, nh2;   // Next hours digits
+    uint8_t nm1, nm2;   // Next minutes digits
+    int8_t  h1fi, h2fi; // Hours digits frame index;
+    int8_t  m1fi, m2fi; // Minutes digits frame index;
 
     public:
-        
-        ClockApp();
 
         uint16_t getRunInterval() {
             return 50;

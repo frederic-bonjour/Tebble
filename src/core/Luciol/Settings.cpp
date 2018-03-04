@@ -11,6 +11,8 @@
     String Settings::MQTTBroker = "broker.hivemq.com";
     uint16_t Settings::MQTTPort = 1883;
 
+    String Settings::NTPServer = "mafreebox.free.fr";
+
 #else
 
     String Settings::BridgeHost = "10.141.3.1"; // TODO Check
@@ -21,5 +23,7 @@
 
     String Settings::MQTTBroker = "10.141.3.1"; // TODO Check
     uint16_t Settings::MQTTPort = 1883;
+
+    String Settings::NTPServer = "10.141.3.1"; // TODO Check
 
 #endif
