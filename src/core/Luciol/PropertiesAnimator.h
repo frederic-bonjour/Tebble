@@ -21,13 +21,19 @@ template <class T> class Property {
             to = t;
             duration = d;
         }
+
+        Property(T constant) {
+            from = constant;
+            to = constant;
+            duration = 0;
+        }
 };
 
 
 class PropertiesAnimator {
 
     uint32_t startTime;
-    uint16_t duration;
+    uint16_t duration = 0;
 
     std::map<String, Property<int>*> intProperties;
     std::map<String, Property<float>*> floatProperties;
@@ -39,12 +45,14 @@ class PropertiesAnimator {
         PropertiesAnimator* add(String name, Property<float>* property);
         PropertiesAnimator* add(String name, Property<RgbColor>* property);
 
-        float getFloat(String name);
-        int getInt(String name);
+        float    getFloat(String name);
+        int      getInt(String name);
         RgbColor getColor(String name);
 
         void start();
         bool isComplete();
+
+        void reset();
 };
 
 #endif

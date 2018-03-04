@@ -72,7 +72,9 @@ void setup() {
   luciol = new LuciolDevice();
   luciol->init();
 
-  appManager->registerApp("text", new TextApp);
+  appManager->registerApp("clock", new ClockApp);
+  //appManager->registerApp("clock", new ClockApp);
+  //appManager->registerApp("clock", new ClockApp);
 
   PropertiesAnimator pa;
   pa.add("x", new Property<int>(250, -2, 3));

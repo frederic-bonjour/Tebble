@@ -5,6 +5,9 @@
 
 float PropertiesAnimator::getFloat(String name) {
     Property<float>* p = floatProperties[name];
+    if (!p->duration) {
+        return p->from;
+    }
     double percent = (millis() - startTime) / (double)p->duration;
     if (percent == 0.0) return p->from;
     if (percent >= 1.0) return p->to;
@@ -15,6 +18,9 @@ float PropertiesAnimator::getFloat(String name) {
 
 int PropertiesAnimator::getInt(String name) {
     Property<int>* p = intProperties[name];
+    if (!p->duration) {
+        return p->from;
+    }
     double percent = (millis() - startTime) / (double)p->duration;
     if (percent == 0.0) return p->from;
     if (percent >= 1.0) return p->to;
@@ -25,6 +31,9 @@ int PropertiesAnimator::getInt(String name) {
 
 RgbColor PropertiesAnimator::getColor(String name) {
     Property<RgbColor>* p = colorProperties[name];
+    if (!p->duration) {
+        return p->from;
+    }
     double percent = (millis() - startTime) / (double)p->duration;
     if (percent == 0.0) return p->from;
     if (percent >= 1.0) return p->to;
@@ -35,6 +44,7 @@ RgbColor PropertiesAnimator::getColor(String name) {
 PropertiesAnimator* PropertiesAnimator::add(String name, Property<int>* property) {
     if (property->duration > duration) {
         duration = property->duration;
+        Serial.print("Duration: "); Serial.println(duration);
     }
     intProperties[name] = property;
 }
@@ -43,6 +53,7 @@ PropertiesAnimator* PropertiesAnimator::add(String name, Property<int>* property
 PropertiesAnimator* PropertiesAnimator::add(String name, Property<float>* property) {
     if (property->duration > duration) {
         duration = property->duration;
+        Serial.print("Duration: "); Serial.println(duration);
     }
     floatProperties[name] = property;
 }
@@ -51,6 +62,7 @@ PropertiesAnimator* PropertiesAnimator::add(String name, Property<float>* proper
 PropertiesAnimator* PropertiesAnimator::add(String name, Property<RgbColor>* property) {
     if (property->duration > duration) {
         duration = property->duration;
+        Serial.print("Duration: "); Serial.println(duration);
     }
     colorProperties[name] = property;
 }

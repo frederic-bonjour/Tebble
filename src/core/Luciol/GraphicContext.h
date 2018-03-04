@@ -21,7 +21,6 @@ class GraphicContext {
     NeoGamma<NeoGammaTableMethod> gamma;;
 
     #ifdef DEVICE_TEBBLE
-      uint16_t drawChar(int16_t x, int16_t y, char c);
       Font*     font;
     #endif
 
@@ -35,8 +34,10 @@ class GraphicContext {
     GraphicContext* plot(int16_t x, int16_t y);
 
     GraphicContext* horizontalLine(int16_t y);
+    GraphicContext* horizontalLine(int16_t y, RgbColor color);
     GraphicContext* horizontalLine(int16_t x1, int16_t x2, int16_t y);
     GraphicContext* verticalLine(int16_t x);
+    GraphicContext* verticalLine(int16_t x, RgbColor color);
     GraphicContext* verticalLine(int16_t x, int16_t y1, int16_t y2);
     
     GraphicContext* setFillColor(RgbColor color);
@@ -47,8 +48,10 @@ class GraphicContext {
     GraphicContext* clear();
 
     #ifdef DEVICE_TEBBLE
+      uint16_t        drawChar(int16_t x, int16_t y, char c);
       GraphicContext* setFont(String fontName);
       GraphicContext* text(int16_t x, int16_t y, String text);
+      GraphicContext* drawBitMask(int16_t x, int16_t y, uint8_t* mask, uint8_t w, uint8_t h);
       uint16_t getTextWidth(String text);
     #endif
 

@@ -60,6 +60,14 @@ GraphicContext* GraphicContext::horizontalLine(int16_t y) {
 }
 
 
+GraphicContext* GraphicContext::horizontalLine(int16_t y, RgbColor color) {
+  for (int16_t x=0 ; x<width; x++) {
+		this->setPixel(x, y, color);
+	}
+  return this;
+}
+
+
 GraphicContext* GraphicContext::horizontalLine(int16_t x1, int16_t x2, int16_t y) {
   for (int16_t x=x1 ; x<=x2 ; x++) {
 		this->setPixel(x, y, drawColor);
@@ -71,6 +79,14 @@ GraphicContext* GraphicContext::horizontalLine(int16_t x1, int16_t x2, int16_t y
 GraphicContext* GraphicContext::verticalLine(int16_t x) {
   for (int16_t y=0 ; y<height ; y++) {
     plot(x, y);
+  }
+  return this;
+}
+
+
+GraphicContext* GraphicContext::verticalLine(int16_t x, RgbColor color) {
+  for (int16_t y=0 ; y<height ; y++) {
+    this->setPixel(x, y, color);
   }
   return this;
 }
@@ -138,8 +154,7 @@ GraphicContext* GraphicContext::verticalGradient(RgbColor from, RgbColor to) {
   double step = 1.0 / height;
   float progress = 0;
   for (uint16_t y=0; y<height; y++) {
-      setDrawColor(RgbColor::LinearBlend(from, to, progress));
-      horizontalLine(y);
+      horizontalLine(y, RgbColor::LinearBlend(from, to, progress));
       progress += step;
   }
 }
@@ -209,6 +224,19 @@ GraphicContext* GraphicContext::copy(int16_t srcX, int16_t srcY, int16_t width, 
       width += font->getCharWidth(text.charAt(i)) + 1;
     }
     return width;
+  }
+
+
+  GraphicContext* GraphicContext::drawBitMask(int16_t x, int16_t y, uint8_t* mask, uint8_t w, uint8_t h) {
+      for (uint8_t yi=0; yi<h; yi++) {
+        uint8_t def = mask[yi];
+        for (uint8_t xi=0; xi<w; xi++) {
+          if (def & (1<<xi)) {
+            plot(x + w - 1 - xi, y + yi);
+          }
+        }
+      }
+      return this;
   }
 
 #endif
