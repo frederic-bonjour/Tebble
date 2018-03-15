@@ -1,7 +1,7 @@
 #ifndef _DISPLAY_H_
 #define _DISPLAY_H_
 
-#include <NeoPixelBus.h>
+#include <NeoPixelBrightnessBus.h>
 #include <Arduino.h>
 
 #include "Singleton.h"
@@ -30,7 +30,7 @@ class Display : public Singleton<Display>
     Display();
     ~Display();
     GraphicContext* gc;
-    static NeoPixelBus<NeoGrbFeature, NeoEsp8266Uart800KbpsMethod> leds;
+    static NeoPixelBrightnessBus<NeoGrbFeature, NeoEsp8266Uart800KbpsMethod> leds;
 
   public:
 

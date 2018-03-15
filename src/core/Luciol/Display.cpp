@@ -1,12 +1,13 @@
 #include "Display.h"
 
 
-NeoPixelBus<NeoGrbFeature, NeoEsp8266Uart800KbpsMethod> Display::leds(SCREEN_WIDTH * SCREEN_HEIGHT);
+NeoPixelBrightnessBus<NeoGrbFeature, NeoEsp8266Uart800KbpsMethod> Display::leds(SCREEN_WIDTH * SCREEN_HEIGHT);
 
 
 Display::Display() {
   gc = createContext();
   leds.Begin();
+  //leds.SetBrightness(100);
 }
 
 
