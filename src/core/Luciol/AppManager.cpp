@@ -24,13 +24,13 @@ void AppManager::loop() {
     Ambience *amb = AmbienceManager::get()->getAmbience();
 
     if (previousRunnable != NULL) {
-        previousRunnable->willSleep();
+        previousRunnable->willStop();
         previousRunnable = NULL;
     }
 
     if (currentRunnable != NULL) {
         if (shouldWakeUpApp) {
-            currentRunnable->willWakeUp(gc, amb);
+            currentRunnable->willStart(gc, amb);
             shouldWakeUpApp = false;
         }
         currentRunnable->loop(gc, amb);

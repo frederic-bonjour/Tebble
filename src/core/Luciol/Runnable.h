@@ -36,8 +36,8 @@ class Runnable {
 
         virtual void handleMessage(String data) {};
 
-        virtual void willSleep() {}
-        virtual void willWakeUp(GraphicContext* gc, Ambience* ambience) {}
+        virtual void willStop() {}
+        virtual void willStart(GraphicContext* gc, Ambience* ambience) {}
 
 };
 

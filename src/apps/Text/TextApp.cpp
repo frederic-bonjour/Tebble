@@ -8,7 +8,7 @@ TextApp::TextApp() {
 }
 
 
-void TextApp::willWakeUp(GraphicContext* gc, Ambience* ambience) {
+void TextApp::willStart(GraphicContext* gc, Ambience* ambience) {
 }
 
 

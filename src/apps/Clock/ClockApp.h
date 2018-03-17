@@ -22,7 +22,7 @@ class ClockApp : public Runnable {
         }
 
         void run(GraphicContext* gc, Ambience* ambience, unsigned long time);
-        void willWakeUp(GraphicContext* gc, Ambience* ambience);
+        void willStart(GraphicContext* gc, Ambience* ambience);
 };
 
 #endif

@@ -118,7 +118,7 @@ void TimerApp::reset() {
 }
 
 
-void TimerApp::willWakeUp(GraphicContext* gc, Ambience* ambience) {
+void TimerApp::willStart(GraphicContext* gc, Ambience* ambience) {
     reset();
 }
 

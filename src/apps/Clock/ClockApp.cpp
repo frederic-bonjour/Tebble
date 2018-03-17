@@ -114,7 +114,7 @@ void ClockApp::run(GraphicContext* gc, Ambience* ambience, unsigned long time) {
 }
 
 
-void ClockApp::willWakeUp(GraphicContext* gc, Ambience* ambience) {
+void ClockApp::willStart(GraphicContext* gc, Ambience* ambience) {
     Clock::sync();
 
     //int hours = Clock::getMinutes();
