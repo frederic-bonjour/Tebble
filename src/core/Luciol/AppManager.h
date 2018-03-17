@@ -17,15 +17,19 @@ class AppManager : public Singleton<AppManager> {
         AppManager();
 
         Runnable* currentRunnable  = NULL;
+        String    currentRunnableId;
         Runnable* previousRunnable = NULL;
+        bool      shouldWakeUpApp  = false;
+
         std::map<String, Runnable*> appsById;
-        bool shouldWakeUpApp = false;
 
     public:
 
-        void loop();
-        void setRunnable(String id);
-        void registerApp(String id, Runnable* runnable);
+        void      loop();
+        void      setRunnable(String id);
+        void      registerApp(String id, Runnable* runnable);
+        String    getCurrentRunnableId();
+        Runnable* getCurrentRunnable();
 
 };
 

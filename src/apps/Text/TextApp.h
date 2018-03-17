@@ -20,7 +20,7 @@ class TextApp : public Runnable {
             return 80;
         }
 
-        void wakeUp(GraphicContext* gc, Ambience* ambience);
+        void willWakeUp(GraphicContext* gc, Ambience* ambience);
 
     public:
 

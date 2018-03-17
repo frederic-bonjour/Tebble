@@ -24,7 +24,7 @@ class Runnable {
             }
         }
 
-        virtual void ambienceChanged() {};
+        virtual void ambienceDidChange() {};
 
         virtual bool isComplete() {
             return false;
@@ -34,8 +34,10 @@ class Runnable {
             return 1000;
         }
 
-        virtual void sleep() {}
-        virtual void wakeUp(GraphicContext* gc, Ambience* ambience) {}
+        virtual void handleMessage(String data) {};
+
+        virtual void willSleep() {}
+        virtual void willWakeUp(GraphicContext* gc, Ambience* ambience) {}
 
 };
 

@@ -9,13 +9,47 @@
 #include "Clock.h"
 
 
+#include "AmbienceManager.h"
+AmbienceManager* _ambienceManager = AmbienceManager::get();
+
+
+#include "AppManager.h"
+AppManager*      _appManager      = AppManager::get();
+
+
 void LuciolDevice::init() {
     connectWiFi();
     initDeviceIdentity();
     Clock::init();
     initMQTT();
 
-    AmbienceManager::get()->load();
+    _ambienceManager->load();
+}
+
+
+void mqttMessageReceived(char* topic, byte* payload, unsigned int length) {
+    String msg = "";
+    for (uint16_t i=0; i<length; i++) {
+        msg += (char)payload[i];
+    }
+    int p = msg.indexOf(' ');
+    String cmd = msg.substring(0, p);
+    String cmdData = msg.substring(p + 1);
+
+    Serial.print("Message received: "); Serial.println(cmd);
+    Serial.print("Topic: "); Serial.println(topic);
+
+    if (cmd == "app") {
+        _appManager->setRunnable(cmdData);
+    } else if (cmd == "ambience") {
+        _ambienceManager->setAmbience(cmdData);
+    } else if (cmd == "resume") {
+        
+    } else if (cmd == "locate") {
+        
+    } else if (cmd == _appManager->getCurrentRunnableId()) {
+        _appManager->getCurrentRunnable()->handleMessage(cmdData);
+    }
 }
 
 
@@ -29,14 +63,14 @@ void LuciolDevice::connectWiFi() {
     // Wait until the connection has been confirmed before continuing
     while (WiFi.status() != WL_CONNECTED) {
         delay(500);
-        #ifdef DEVELOPMENT
+        #ifdef DEBUG
             Serial.print(".");
         #endif
     }
 
     ipAddress = WiFi.localIP();
 
-    #ifdef DEVELOPMENT
+    #ifdef DEBUG
         Serial.println();
         Serial.println("Connexion WiFi : OK");
         Serial.print  ("Addresse IP    : ");
@@ -66,10 +100,10 @@ bool LuciolDevice::connectMQTT() {
         pubSubClient->subscribe("B2D/all");
         pubSubClient->subscribe((String("B2D/N/") + deviceNumber).c_str());
         pubSubClient->subscribe((String("B2D/I/") + deviceId).c_str());
-        // TODO pubSubClient->setCallback(ReceivedMessage);
+        pubSubClient->setCallback(mqttMessageReceived);
 
-        #ifdef DEVELOPMENT
-            Serial.println("MQTT          : OK");
+        #ifdef DEBUG
+            Serial.println("MQTT           : OK");
         #endif
         return true;
     }
@@ -85,7 +119,7 @@ void LuciolDevice::initDeviceIdentity() {
     String ip = ipAddress.toString();
     int p = ip.lastIndexOf('.');
     deviceId = ip.substring(p + 1).toInt();
-    #ifdef DEVELOPMENT
+    #ifdef DEBUG
         Serial.print("Device ID      : "); Serial.println(deviceId);
     #endif
 
@@ -93,13 +127,13 @@ void LuciolDevice::initDeviceIdentity() {
     SPIFFS.begin();
     File f = SPIFFS.open("/dev-id.txt", "r");
     if (!f) {
-        #ifdef DEVELOPMENT
+        #ifdef DEBUG
             Serial.println("Identification file NOT found.");
         #endif
         deviceNumber = 0;
         deviceName = "no-name";
     } else {
-        #ifdef DEVELOPMENT
+        #ifdef DEBUG
             Serial.println("Identification file found.");
         #endif
         String s = f.readStringUntil('\n');
@@ -109,7 +143,7 @@ void LuciolDevice::initDeviceIdentity() {
         deviceNumber = s.substring(0, p).toInt();
         deviceName = s.substring(p + 1);
     }
-    #ifdef DEVELOPMENT
+    #ifdef DEBUG
         Serial.print("Number         : "); Serial.println(deviceNumber);
         Serial.print("Name           : "); Serial.println(deviceName);
     #endif

@@ -7,6 +7,7 @@
 
 #include "fonts/Font.h"
 
+enum GraphicContextDrawImageStatus { DRAWN, OUT_OF_SCREEN, UNSUPPORTED_FORMAT, FILE_NOT_FOUND };
 
 class GraphicContext {
 
@@ -43,6 +44,8 @@ class GraphicContext {
     GraphicContext* setFillColor(RgbColor color);
     GraphicContext* setDrawColor(RgbColor color);
     GraphicContext* setColor(RgbColor color);
+
+    RgbColor colorWheel(uint8_t pos);
     
     GraphicContext* fill();
     GraphicContext* clear();
@@ -55,6 +58,8 @@ class GraphicContext {
 
       uint8_t getBitMaskMaxWidth(uint8_t* mask, uint8_t h);
       GraphicContext* drawBitMask(int16_t x, int16_t y, uint8_t* mask, uint8_t w, uint8_t h);
+
+      GraphicContextDrawImageStatus drawImage(int16_t x, int16_t y, String imageFile);
     #endif
 
     #ifdef DEVICE_LUCIOL

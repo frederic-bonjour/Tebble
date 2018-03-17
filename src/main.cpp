@@ -50,6 +50,8 @@ D2B/paused          | 4                  | Device number '4' has reached its ani
 
 #include "apps/Text/TextApp.h"
 #include "apps/Clock/ClockApp.h"
+#include "apps/Timer/TimerApp.h"
+#include "apps/Rainbow/RainbowApp.h"
 #include "apps/Gradient/GradientApp.h"
 
 #include "core/Luciol/PropertiesAnimator.h"
@@ -74,6 +76,8 @@ void setup() {
   luciol = new LuciolDevice();
   luciol->init();
 
+  appManager->registerApp("rainbow", new RainbowApp);
+  appManager->registerApp("timer", new TimerApp);
   appManager->registerApp("clock", new ClockApp);
 }
 
