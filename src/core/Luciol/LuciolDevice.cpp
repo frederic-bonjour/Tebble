@@ -36,7 +36,7 @@ void mqttMessageReceived(char* topic, byte* payload, unsigned int length) {
     String cmd = msg.substring(0, p);
     String cmdData = msg.substring(p + 1);
 
-    Serial.print("Message received: "); Serial.println(cmd);
+    Serial.print("Message received: cmd='"); Serial.print(cmd); Serial.print("', data='"); Serial.print(cmdData); Serial.println("'");
     Serial.print("Topic: "); Serial.println(topic);
 
     if (cmd == "app") {
