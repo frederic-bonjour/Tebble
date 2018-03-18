@@ -4,12 +4,30 @@
 
 
 void RainbowApp::run(unsigned long time) {
-    pos++;
-    requestAnimationFrame();
+    if (time >= 60) {
+        pos++;
+        requestAnimationFrame();
+    }
 }
 
+
 void RainbowApp::paint(GraphicContext* gc, Ambience* ambience) {
-    float step = 255 / (gc->getWidth() * 2 + (gc->getHeight()-2) * 2);
+    switch (mode) {
+        case SIDES:
+            paintSides(gc, ambience);
+            break;
+        case UNIQUE:
+            paintUnique(gc, ambience);
+            break;
+        default:
+            paintPlain(gc, ambience);
+            break;
+    }
+}
+
+
+void RainbowApp::paintSides(GraphicContext* gc, Ambience* ambience) {
+    float step = 255.0 / (gc->getWidth() * 2 + (gc->getHeight()-2) * 2);
     float p = 0.0;
 
     uint16_t x2 = gc->getWidth() - 1;
@@ -31,5 +49,37 @@ void RainbowApp::paint(GraphicContext* gc, Ambience* ambience) {
     for (int8_t y = y2-1; y > 0; y--) {
         gc->setPixel(0, y, gc->colorWheel(round(p) + pos));
         p += step;
+    }
+}
+
+
+void RainbowApp::paintPlain(GraphicContext* gc, Ambience* ambience) {
+    float step = 255.0 / (gc->getHeight() * 1.5);
+    float p = 0.0;
+
+    uint16_t x2 = gc->getWidth() - 1;
+    uint16_t y2 = gc->getHeight() - 1;
+
+    for (int8_t y = 0; y<gc->getHeight(); y++) {
+        gc->setDrawColor(gc->colorWheel(round(p) + pos));
+        gc->horizontalLine(y);
+        p += step;
+    }
+}
+
+
+void RainbowApp::paintUnique(GraphicContext* gc, Ambience* ambience) {
+    gc->setFillColor(gc->colorWheel(pos));
+    gc->fill();
+}
+
+
+void RainbowApp::handleMessage(String data) {
+    if (data == "plain") {
+        mode = PLAIN;
+    } else if (data == "sides") {
+        mode = SIDES;
+    } else if (data == "unique") {
+        mode = UNIQUE;
     }
 }
