@@ -11,13 +11,14 @@ class Runnable {
     protected:
 
         unsigned long lastRunMs = 0;
+        unsigned long lastPaintMs = 0;
 
         bool repaintRequested = false;
         void requestAnimationFrame() {
             repaintRequested = true;
         }
         
-        virtual void run(unsigned long msSinceLastRun) = 0;
+        virtual void run(unsigned long msSinceLastRun) {};
 
     public:
 
@@ -25,14 +26,22 @@ class Runnable {
             repaintRequested = false;
             unsigned long now = millis();
             if (now - lastRunMs > getRunInterval()) {
-                run(now - lastRunMs);
+                run(now - lastPaintMs);
                 lastRunMs = now;
             }
         }
 
-        virtual void paint(GraphicContext* gc, Ambience* ambience);
+        void doPaint(GraphicContext* gc, Ambience* ambience) {
+            paint(gc, ambience);
+            lastPaintMs = millis();
+        };
 
-        virtual void ambienceDidChange() {};
+        virtual void paint(GraphicContext* gc, Ambience* ambience) = 0;
+
+        virtual void ambienceDidChange(GraphicContext* gc, Ambience* ambience) {
+            gc->setFillColor(ambience->getSecondaryColor());
+            gc->setDrawColor(ambience->getPrimaryColor());
+        };
 
         virtual bool shouldRepaint() {
             return repaintRequested;
@@ -44,13 +53,17 @@ class Runnable {
         }
 
         virtual uint16_t getRunInterval() {
-            return 1000;
+            return 16;
         }
 
         virtual void handleMessage(String data) {};
 
-        virtual void willStop() {}
-        virtual void willStart(GraphicContext* gc, Ambience* ambience) {}
+        virtual void willStop() {};
+
+        virtual void willStart(GraphicContext* gc, Ambience* ambience) {
+            gc->setFillColor(ambience->getSecondaryColor());
+            gc->setDrawColor(ambience->getPrimaryColor());
+        };
 
 };
 

@@ -47,7 +47,7 @@ void mqttMessageReceived(char* topic, byte* payload, unsigned int length) {
         
     } else if (cmd == "locate") {
         
-    } else if (cmd == _appManager->getCurrentRunnableId()) {
+    } else if (cmd == String("app:") + _appManager->getCurrentRunnableId()) {
         _appManager->getCurrentRunnable()->handleMessage(cmdData);
     }
 }

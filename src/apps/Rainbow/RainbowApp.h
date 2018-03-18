@@ -10,11 +10,7 @@ class RainbowApp : public Runnable {
     uint8_t pos = 0;
 
     public:
-
-        uint16_t getRunInterval() {
-            return 50;
-        }
-
+    
         void run(unsigned long time);
         void paint(GraphicContext* gc, Ambience* ambience);
 };

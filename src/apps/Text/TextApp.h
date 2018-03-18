@@ -14,12 +14,13 @@ class TextApp : public Runnable {
         int16_t x = 0;
         uint16_t textWidth = 0;
 
+        bool fontChanged = false;
+        bool textChanged = false;
+        
+        bool inverted = false;
+
     protected:
         
-        uint16_t getRunInterval() {
-            return 80;
-        }
-
         void willStart(GraphicContext* gc, Ambience* ambience);
 
     public:
@@ -31,6 +32,7 @@ class TextApp : public Runnable {
         void setText(String t);
         void setText(String t, String f);
 
+        void handleMessage(String data);
 };
 
 #endif

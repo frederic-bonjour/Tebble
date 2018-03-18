@@ -78,8 +78,6 @@ void AmbienceManager::setAmbience(String id) {
     AmbiencesById::iterator iter = ambiencesById.find(id);
     if (iter != ambiencesById.end()) {
         currentAmbience = ambiencesById[id];
-        Serial.print("Ambience changed: ");
-        Serial.println(id);
     }
 }
 
