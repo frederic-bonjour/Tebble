@@ -15,7 +15,8 @@ class RainbowApp : public Runnable {
             return 50;
         }
 
-        void run(GraphicContext* gc, Ambience* ambience, unsigned long time);
+        void run(unsigned long time);
+        void paint(GraphicContext* gc, Ambience* ambience);
 };
 
 #endif

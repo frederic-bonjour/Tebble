@@ -5,17 +5,14 @@
 #include "../DigitsTransitions.h"
 
 
-void TimerApp::run(GraphicContext* gc, Ambience* ambience, unsigned long time) {
+void TimerApp::run(unsigned long time) {
     if (remaining <= 0) {
         if (!stopped) {
-            gc->drawImage(0, 0, "/bell.bmp");
             stopped = true;
+            requestAnimationFrame();
         }
         return;
     }
-
-    gc->setFillColor(RgbColor(0, 0, 50));
-    gc->fill();
 
     uint16_t ellapsed = (millis() - startTime) / 1000;
     remaining = duration - ellapsed;
@@ -24,6 +21,7 @@ void TimerApp::run(GraphicContext* gc, Ambience* ambience, unsigned long time) {
 
     nm1 = minutes / 10;
     if (nm1 != m1) {
+        requestAnimationFrame();
         if (m1fi > 0) {
             m1fi--;
         } else {
@@ -34,6 +32,7 @@ void TimerApp::run(GraphicContext* gc, Ambience* ambience, unsigned long time) {
     
     nm2 = minutes % 10;
     if (nm2 != m2) {
+        requestAnimationFrame();
         if (m2fi > 0) {
             m2fi--;
         } else {
@@ -45,6 +44,7 @@ void TimerApp::run(GraphicContext* gc, Ambience* ambience, unsigned long time) {
 
     ns1 = seconds / 10;
     if (ns1 != s1) {
+        requestAnimationFrame();
         if (s1fi > 0) {
             s1fi--;
         } else {
@@ -55,6 +55,7 @@ void TimerApp::run(GraphicContext* gc, Ambience* ambience, unsigned long time) {
 
     ns2 = seconds % 10;
     if (ns2 != s2) {
+        requestAnimationFrame();
         if (s2fi > 0) {
             s2fi--;
         } else {
@@ -62,6 +63,17 @@ void TimerApp::run(GraphicContext* gc, Ambience* ambience, unsigned long time) {
             s2fi = DigitsTransitions::FRAMES - 1;
         }
     }
+}
+
+
+void TimerApp::paint(GraphicContext* gc, Ambience* ambience) {
+    if (stopped) {
+        gc->drawImage(0, 0, "/bell.bmp");
+        return;
+    }
+
+    gc->setFillColor(RgbColor(0, 0, 50));
+    gc->fill();
 
     if (remaining <= 30) {
         gc->setDrawColor(RgbColor::LinearBlend(RgbColor(255, 0, 0), ambience->getPrimaryColor(), remaining/30.0));

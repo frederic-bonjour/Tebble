@@ -3,7 +3,12 @@
 #include "../../core/Luciol/PropertiesAnimator.h"
 
 
-void RainbowApp::run(GraphicContext* gc, Ambience* ambience, unsigned long time) {
+void RainbowApp::run(unsigned long time) {
+    pos++;
+    requestAnimationFrame();
+}
+
+void RainbowApp::paint(GraphicContext* gc, Ambience* ambience) {
     float step = 255 / (gc->getWidth() * 2 + (gc->getHeight()-2) * 2);
     float p = 0.0;
 
@@ -27,6 +32,4 @@ void RainbowApp::run(GraphicContext* gc, Ambience* ambience, unsigned long time)
         gc->setPixel(0, y, gc->colorWheel(round(p) + pos));
         p += step;
     }
-
-    pos++;
 }

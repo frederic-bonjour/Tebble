@@ -32,53 +32,8 @@ void drawSeconds(GraphicContext* gc, uint8_t s, RgbColor color, bool dim) {
     }
 }
 
-void ClockApp::run(GraphicContext* gc, Ambience* ambience, unsigned long time) {
-    gc->clear();
 
-    int hours = Clock::getHours();
-    int minutes = Clock::getMinutes();
-    int seconds = Clock::getSeconds();
-
-    nh1 = hours / 10;
-    if (nh1 != h1) {
-        if (h1fi < (DigitsTransitions::FRAMES-1)) {
-            h1fi++;
-        } else {
-            h1 = nh1;
-            h1fi = 0;
-        }
-    }
-
-    nh2 = hours % 10;
-    if (nh2 != h2) {
-        if (h2fi < (DigitsTransitions::FRAMES-1)) {
-            h2fi++;
-        } else {
-            h2 = nh2;
-            h2fi = 0;
-        }
-    }
-
-    nm1 = minutes / 10;
-    if (nm1 != m1) {
-        if (m1fi < (DigitsTransitions::FRAMES-1)) {
-            m1fi++;
-        } else {
-            m1 = nm1;
-            m1fi = 0;
-        }
-    }
-    
-    nm2 = minutes % 10;
-    if (nm2 != m2) {
-        if (m2fi < (DigitsTransitions::FRAMES-1)) {
-            m2fi++;
-        } else {
-            m2 = nm2;
-            m2fi = 0;
-        }
-    }
-
+void ClockApp::paint(GraphicContext* gc, Ambience* ambience) {
     gc->setDrawColor(ambience->getPrimaryColor());
 
     uint8_t* mask;
@@ -107,6 +62,61 @@ void ClockApp::run(GraphicContext* gc, Ambience* ambience, unsigned long time) {
         drawSeconds(gc, s, c, true);
     }
     drawSeconds(gc, seconds, ambience->getSecondaryColor(), false);
+}
+
+
+void ClockApp::run(unsigned long time) {
+    int hours = Clock::getHours();
+    nh1 = hours / 10;
+    if (nh1 != h1) {
+        requestAnimationFrame();
+        if (h1fi < (DigitsTransitions::FRAMES-1)) {
+            h1fi++;
+        } else {
+            h1 = nh1;
+            h1fi = 0;
+        }
+    }
+
+    nh2 = hours % 10;
+    if (nh2 != h2) {
+        requestAnimationFrame();
+        if (h2fi < (DigitsTransitions::FRAMES-1)) {
+            h2fi++;
+        } else {
+            h2 = nh2;
+            h2fi = 0;
+        }
+    }
+
+    int minutes = Clock::getMinutes();
+    nm1 = minutes / 10;
+    if (nm1 != m1) {
+        requestAnimationFrame();
+        if (m1fi < (DigitsTransitions::FRAMES-1)) {
+            m1fi++;
+        } else {
+            m1 = nm1;
+            m1fi = 0;
+        }
+    }
+    
+    nm2 = minutes % 10;
+    if (nm2 != m2) {
+        requestAnimationFrame();
+        if (m2fi < (DigitsTransitions::FRAMES-1)) {
+            m2fi++;
+        } else {
+            m2 = nm2;
+            m2fi = 0;
+        }
+    }
+
+    int sec = Clock::getSeconds();
+    if (sec != seconds) {
+        requestAnimationFrame();
+        seconds = sec;
+    }
 }
 
 

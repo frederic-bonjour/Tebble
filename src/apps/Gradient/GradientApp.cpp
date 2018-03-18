@@ -2,6 +2,6 @@
 #include "../../core/Luciol/GraphicContext.h"
 
 
-void GradientApp::run(GraphicContext* gc, Ambience* ambience, unsigned long time) {
+void GradientApp::paint(GraphicContext* gc, Ambience* ambience) {
     gc->verticalGradient(ambience->getPrimaryColor(), ambience->getSecondaryColor());
 }

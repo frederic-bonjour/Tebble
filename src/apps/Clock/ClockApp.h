@@ -14,6 +14,7 @@ class ClockApp : public Runnable {
     uint8_t nm1, nm2;   // Next minutes digits
     int8_t  h1fi, h2fi; // Hours digits frame index;
     int8_t  m1fi, m2fi; // Minutes digits frame index;
+    int8_t  seconds;
 
     public:
 
@@ -21,7 +22,8 @@ class ClockApp : public Runnable {
             return 50;
         }
 
-        void run(GraphicContext* gc, Ambience* ambience, unsigned long time);
+        void run(unsigned long time);
+        void paint(GraphicContext* gc, Ambience* ambience);
         void willStart(GraphicContext* gc, Ambience* ambience);
 };
 

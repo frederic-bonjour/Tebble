@@ -8,7 +8,7 @@
 class GradientApp : public Runnable {
 
     public:
-        void run(GraphicContext* gc, Ambience* ambience, unsigned long time);
+        void paint(GraphicContext* gc, Ambience* ambience);
 };
 
 #endif

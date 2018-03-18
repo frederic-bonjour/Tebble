@@ -25,7 +25,8 @@ class TextApp : public Runnable {
     public:
 
         TextApp();
-        void run(GraphicContext* gc, Ambience* ambience, unsigned long time);
+        void run(unsigned long time);
+        void paint(GraphicContext* gc, Ambience* ambience);
         
         void setText(String t);
         void setText(String t, String f);

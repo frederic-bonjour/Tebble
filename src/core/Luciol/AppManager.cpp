@@ -28,12 +28,17 @@ void AppManager::loop() {
         previousRunnable = NULL;
     }
 
+    bool hasJustStarted = shouldWakeUpApp;
     if (currentRunnable != NULL) {
         if (shouldWakeUpApp) {
             currentRunnable->willStart(gc, amb);
             shouldWakeUpApp = false;
         }
-        currentRunnable->loop(gc, amb);
+        currentRunnable->loop();
+        if (hasJustStarted || currentRunnable->shouldRepaint()) {
+            gc->clear();
+            currentRunnable->paint(gc, amb);
+        }
     }
 }
 

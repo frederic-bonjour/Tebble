@@ -11,20 +11,33 @@ class Runnable {
     protected:
 
         unsigned long lastRunMs = 0;
+
+        bool repaintRequested = false;
+        void requestAnimationFrame() {
+            repaintRequested = true;
+        }
         
-        virtual void run(GraphicContext* gc, Ambience* ambience, unsigned long time) = 0;
+        virtual void run(unsigned long msSinceLastRun) = 0;
 
     public:
 
-        void loop(GraphicContext* gc, Ambience* ambience) {
+        void loop() {
+            repaintRequested = false;
             unsigned long now = millis();
             if (now - lastRunMs > getRunInterval()) {
-                run(gc, ambience, now);
+                run(now - lastRunMs);
                 lastRunMs = now;
             }
         }
 
+        virtual void paint(GraphicContext* gc, Ambience* ambience);
+
         virtual void ambienceDidChange() {};
+
+        virtual bool shouldRepaint() {
+            return repaintRequested;
+        };
+
 
         virtual bool isComplete() {
             return false;
