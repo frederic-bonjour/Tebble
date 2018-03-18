@@ -76,6 +76,8 @@ void setup() {
   luciol = new LuciolDevice();
   luciol->init();
 
+  appManager->registerApp("text", new TextApp);
+  appManager->registerApp("gradient", new GradientApp);
   appManager->registerApp("rainbow", new RainbowApp);
   appManager->registerApp("timer", new TimerApp);
   appManager->registerApp("clock", new ClockApp);
