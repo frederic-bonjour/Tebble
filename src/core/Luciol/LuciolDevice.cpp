@@ -42,7 +42,11 @@ void mqttMessageReceived(char* topic, byte* payload, unsigned int length) {
     if (cmd == "app") {
         _appManager->setRunnable(cmdData);
     } else if (cmd == "ambience") {
-        _ambienceManager->setAmbience(cmdData);
+        if (cmdData == "inverse") {
+            _ambienceManager->getAmbience()->inverse();
+        } else {
+            _ambienceManager->setAmbience(cmdData);
+        }
     } else if (cmd == "resume") {
         
     } else if (cmd == "locate") {

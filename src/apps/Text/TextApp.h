@@ -16,8 +16,6 @@ class TextApp : public Runnable {
 
         bool fontChanged = false;
         bool textChanged = false;
-        
-        bool inverted = false;
 
     protected:
         

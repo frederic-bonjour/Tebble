@@ -12,6 +12,7 @@ class Ambience
     RgbColor color1;
     RgbColor color2;
     RgbColor color3;
+    bool inverted = false;
 
   public:
 
@@ -24,6 +25,8 @@ class Ambience
     RgbColor getAuxiliaryColor();
 
     bool isGradient();
+    void inverse();
+    bool isInverted() { return inverted; };
 
     static Ambience* createFromString(String ambDef);
 };

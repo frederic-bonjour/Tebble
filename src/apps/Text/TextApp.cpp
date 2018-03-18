@@ -39,13 +39,8 @@ void TextApp::paint(GraphicContext* gc, Ambience* ambience) {
         x = -(gc->getWidth() - 1);
     }
 
-    if (inverted) {
-        gc->setFillColor(ambience->getPrimaryColor());
-        gc->setDrawColor(ambience->getSecondaryColor());
-    } else {
-        gc->setFillColor(ambience->getSecondaryColor());
-        gc->setDrawColor(ambience->getPrimaryColor());
-    }
+    gc->setFillColor(ambience->getSecondaryColor());
+    gc->setDrawColor(ambience->getPrimaryColor());
 
     gc->fill();
     gc->text(-x, 9, text);
@@ -72,7 +67,5 @@ void TextApp::handleMessage(String data) {
         text = data.substring(5);
         text.trim();
         textChanged = true;
-    } else if (data == "inverse") {
-        inverted = !inverted;
     }
 }

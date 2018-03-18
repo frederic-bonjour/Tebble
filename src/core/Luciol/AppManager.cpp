@@ -19,9 +19,13 @@ void AppManager::setRunnable(String id) {
 
 
 void AppManager::loop() {
-    static Ambience *prevAmbience = NULL;
     GraphicContext* gc = display->getContext();
+
+    static Ambience *prevAmbience = NULL;
+    static bool ambienceInverted = false;
     Ambience *amb = AmbienceManager::get()->getAmbience();
+    bool ambienceChanged = prevAmbience != amb || ambienceInverted != amb->isInverted();
+    ambienceInverted = amb->isInverted();
 
     if (previousRunnable != NULL) {
         previousRunnable->willStop();
@@ -35,13 +39,16 @@ void AppManager::loop() {
             shouldWakeUpApp = false;
         }
         currentRunnable->loop();
+        if (ambienceChanged) {
+            currentRunnable->ambienceDidChange(gc, amb);
+            prevAmbience = amb;
+        }
         if (hasJustStarted || currentRunnable->shouldRepaint()) {
-            if (prevAmbience != amb) {
-                currentRunnable->ambienceDidChange(gc, amb);
-                prevAmbience = amb;
-            }
             gc->clear();
             currentRunnable->doPaint(gc, amb);
+        } else if (ambienceChanged) {
+            gc->clear();
+            currentRunnable->paint(gc, amb);
         }
     }
 }

@@ -23,13 +23,13 @@ Ambience::Ambience(String _name, RgbColor c1, RgbColor c2, RgbColor c3)
 
 RgbColor Ambience::getPrimaryColor()
 {
-  return color1;
+  return inverted ? color2 : color1;
 }
 
 
 RgbColor Ambience::getSecondaryColor()
 {
-  return color2;
+  return inverted ? color1 : color2;
 }
 
 
@@ -49,6 +49,13 @@ bool Ambience::isGradient()
 {
   return gradient;
 }
+
+
+void Ambience::inverse()
+{
+  inverted = !inverted;
+}
+
 
 Ambience* Ambience::createFromString(String def) {
   char name[30];
