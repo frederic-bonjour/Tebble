@@ -1,6 +1,5 @@
 #include "ClockApp.h"
 #include "../../core/Luciol/GraphicContext.h"
-#include "../../core/Luciol/PropertiesAnimator.h"
 #include "../../core/Luciol/Clock.h"
 
 #include "../DigitsTransitions.h"

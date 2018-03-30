@@ -49,6 +49,7 @@ D2B/paused          | 4                  | Device number '4' has reached its ani
 #include "core/Luciol/Clock.h"
 
 #include "apps/Text/TextApp.h"
+#include "apps/SpectrumAnalyzer/SpectrumAnalyzerApp.h"
 #include "apps/Clock/ClockApp.h"
 #include "apps/Timer/TimerApp.h"
 #include "apps/Rainbow/RainbowApp.h"
@@ -71,16 +72,17 @@ void setup() {
   Serial.begin(9600);
 
   appManager = AppManager::get();
-  display    = Display::get();
-
-  luciol = new LuciolDevice();
-  luciol->init();
-
+  appManager->registerApp("spectrum", new SpectrumAnalyzerApp);
   appManager->registerApp("text", new TextApp);
   appManager->registerApp("gradient", new GradientApp);
   appManager->registerApp("rainbow", new RainbowApp);
   appManager->registerApp("timer", new TimerApp);
   appManager->registerApp("clock", new ClockApp);
+
+  display = Display::get();
+
+  luciol = new LuciolDevice();
+  luciol->init(display);
 }
 
 

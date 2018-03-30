@@ -75,6 +75,9 @@ class GraphicContext {
 
     uint16_t getWidth();
     uint16_t getHeight();
+
+    uint16_t getCenterY();
+    uint16_t getCenterX();
 };
 
 #endif

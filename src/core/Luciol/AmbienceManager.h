@@ -7,7 +7,6 @@
 #include "Ambience.h"
 #include "Singleton.h"
 
-#define AMBIENCE_LOAD_URL "/download/luciol/ambiences.txt"
 #define HTTP_TIMEOUT_MS 10000
 
 typedef std::map<String, Ambience*> AmbiencesById;

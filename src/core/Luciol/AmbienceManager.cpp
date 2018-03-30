@@ -18,26 +18,25 @@ void AmbienceManager::load() {
     }
 
     WiFiClient client;
-    const int httpPort = 80;
     if (!client.connect(Settings::BridgeHost, Settings::BridgePort)) {
         Serial.println("connection failed");
         return;
     }
 
-    Serial.print("Requesting URL: ");
-    Serial.println(AMBIENCE_LOAD_URL);
+    Serial.print("Requesting URL : ");
+    Serial.println(Settings::AmbiencesURL);
 
     // This will send the request to the server
-    client.print(String("GET ") + AMBIENCE_LOAD_URL + " HTTP/1.1\r\n" +
+    client.print(String("GET ") + Settings::AmbiencesURL + " HTTP/1.1\r\n" +
                 "Host: " + Settings::BridgeHost + "\r\n" +
                 "Connection: close\r\n\r\n");
 
     unsigned long timeout = millis();
     while (client.available() == 0) {
         if (millis() - timeout > HTTP_TIMEOUT_MS) {
-        Serial.println(">>> Client Timeout !");
-        client.stop();
-        return;
+            Serial.println(">>> Client Timeout !");
+            client.stop();
+            return;
         }
     }
 
@@ -45,15 +44,16 @@ void AmbienceManager::load() {
     bool body = false;
     uint8_t ambienceCount = 0;
     while (client.available()) {
-        line = client.readStringUntil('\n');
+        line = client.readStringUntil('\r');
+        Serial.println(line);
         line.trim();
         if (line.length() == 0) {
             body = true;
             continue;
         }
         if (body) {
-            registerAmbience(String(ambienceCount), Ambience::createFromString(line));
             ambienceCount++;
+            registerAmbience(String(ambienceCount), Ambience::createFromString(line));
         }
     }
 
@@ -65,6 +65,7 @@ void AmbienceManager::registerAmbience(String id, Ambience* ambience) {
     ambiencesById[id] = ambience;
     if (ambiencesById.size() == 1) {
         currentAmbience = ambience;
+        Serial.println(currentAmbience->getName());
     }
 }
 

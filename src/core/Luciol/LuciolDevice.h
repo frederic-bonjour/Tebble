@@ -3,8 +3,15 @@
 
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
+#include "Display.h"
+#include "GraphicContext.h"
 
-#define DEVICE_TYPE "Luciol"
+#ifdef DEVICE_LUCIOL
+    #define DEVICE_TYPE "luciol"
+#endif
+#ifdef DEVICE_TEBBLE
+    #define DEVICE_TYPE "tebble"
+#endif
 
 
 class LuciolDevice {
@@ -12,24 +19,30 @@ class LuciolDevice {
     protected:
 
         IPAddress ipAddress;
-        uint8_t deviceId;
-        uint8_t deviceNumber;
-        String  deviceName;
+        String    macAddress;
+
+        int       deviceId = 0;
+        int       deviceNumber = 0;
+
+        uint8_t   bootStep = 0;
 
         WiFiClient wifiClient;
         PubSubClient* pubSubClient;
+        Display* display;
+        GraphicContext* gc;
 
         void connectWiFi();
         void initDeviceIdentity();
         void initMQTT();
         bool connectMQTT();
-
-        bool saveIdentity();
+        void deviceStarted();
+        void bootSequenceStep();
+        void bootSequenceStepOK();
 
     public:
 
-        void init();
-        bool setIdentity(uint8_t number, String name);
+        void init(Display* display);
+        void setIdentity(int number);
         void loop();
 };
 

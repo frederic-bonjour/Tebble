@@ -56,7 +56,7 @@ class Runnable {
             return 16;
         }
 
-        virtual void handleMessage(String data) {};
+        virtual void messageReceived(String data) {};
 
         virtual void willStop() {};
 

@@ -36,6 +36,17 @@ uint16_t GraphicContext::getHeight() {
 }
 
 
+uint16_t GraphicContext::getCenterX() {
+  return width / 2;
+}
+
+
+uint16_t GraphicContext::getCenterY() {
+  return height / 2;
+}
+
+
+
 GraphicContext* GraphicContext::setPixel(int16_t x, int16_t y, RgbColor color) {
   if (x < 0 || x >= width || y < 0 || y >= height) {
     return this;

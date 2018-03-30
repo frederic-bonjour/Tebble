@@ -3,7 +3,6 @@
 
 #include "../../core/Luciol/Runnable.h"
 #include "../../core/Luciol/Ambience.h"
-#include "../../core/Luciol/PropertiesAnimator.h"
 
 
 class ClockApp : public Runnable {

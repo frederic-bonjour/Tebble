@@ -7,7 +7,7 @@
 class Settings {
     public:
         static String BridgeHost;
-        static uint8_t BridgePort;
+        static uint16_t BridgePort;
 
         static String WifiSSID;
         static String WifiPassword;
@@ -18,6 +18,8 @@ class Settings {
         static String MQTTPassword;
 
         static String NTPServer;
+
+        static String AmbiencesURL;
 };
 
 #endif

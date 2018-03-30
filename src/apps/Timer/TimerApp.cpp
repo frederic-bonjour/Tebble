@@ -75,7 +75,7 @@ void TimerApp::paint(GraphicContext* gc, Ambience* ambience) {
     gc->setFillColor(RgbColor(0, 0, 50));
     gc->fill();
 
-    if (remaining <= 30) {
+    if (remaining <= 10) {
         gc->setDrawColor(RgbColor::LinearBlend(RgbColor(255, 0, 0), ambience->getPrimaryColor(), remaining/30.0));
     } else {
         gc->setDrawColor(ambience->getPrimaryColor());
