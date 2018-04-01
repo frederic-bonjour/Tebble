@@ -10,11 +10,30 @@ AppManager::AppManager() {
 }
 
 
-void AppManager::setRunnable(String id) {
-    previousRunnable = currentRunnable;
-    currentRunnableId = id;
-    currentRunnable = appsById[id];
-    shouldWakeUpApp = true;
+bool AppManager::setRunnable(String id) {
+    std::map<String, Runnable*>::iterator iter = appsById.find(id);
+    if (iter != appsById.end()) {
+        previousRunnable = currentRunnable;
+        currentRunnableId = id;
+        currentRunnable = appsById[id];
+        shouldWakeUpApp = true;
+        return true;
+    }
+
+    Serial.print("Unknown app: ");
+    Serial.println(id);
+    return false;
+}
+
+
+void AppManager::setTransientRunnable(String id, unsigned long duration) {
+    std::map<String, Runnable*>::iterator iter = appsById.find(id);
+    if (iter != appsById.end()) {
+        transientRunnable = appsById[id];
+        transientEnd = millis() + duration;
+    } else {
+        transientRunnable = NULL;
+    }
 }
 
 
@@ -27,29 +46,39 @@ void AppManager::loop() {
     bool ambienceChanged = prevAmbience != amb || ambienceInverted != amb->isInverted();
     ambienceInverted = amb->isInverted();
 
-    if (previousRunnable != NULL) {
-        previousRunnable->willStop();
-        previousRunnable = NULL;
-    }
+    if (transientRunnable && transientEnd > millis()) {
 
-    bool hasJustStarted = shouldWakeUpApp;
-    if (currentRunnable != NULL) {
-        if (shouldWakeUpApp) {
-            currentRunnable->willStart(gc, amb);
-            shouldWakeUpApp = false;
+        transientRunnable->loop();
+        transientRunnable->paint(gc, amb);
+
+    } else {
+        transientRunnable = NULL;
+
+        if (previousRunnable != NULL) {
+            previousRunnable->willStop();
+            previousRunnable = NULL;
         }
-        currentRunnable->loop();
-        if (ambienceChanged) {
-            currentRunnable->ambienceDidChange(gc, amb);
-            prevAmbience = amb;
+
+        bool hasJustStarted = shouldWakeUpApp;
+        if (currentRunnable != NULL) {
+            if (shouldWakeUpApp) {
+                currentRunnable->willStart(gc, amb);
+                shouldWakeUpApp = false;
+            }
+            currentRunnable->loop();
+            if (ambienceChanged) {
+                currentRunnable->ambienceDidChange(gc, amb);
+                prevAmbience = amb;
+            }
+            if (hasJustStarted || currentRunnable->shouldRepaint()) {
+                gc->clear();
+                currentRunnable->doPaint(gc, amb);
+            } else if (ambienceChanged) {
+                gc->clear();
+                currentRunnable->paint(gc, amb);
+            }
         }
-        if (hasJustStarted || currentRunnable->shouldRepaint()) {
-            gc->clear();
-            currentRunnable->doPaint(gc, amb);
-        } else if (ambienceChanged) {
-            gc->clear();
-            currentRunnable->paint(gc, amb);
-        }
+
     }
 }
 

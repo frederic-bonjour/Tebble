@@ -94,7 +94,12 @@ void mqttMessageReceived(char* topic, byte* payload, unsigned int length) {
         
     } else if (cmd == "locate") {
         
-    } else if (cmd == _appManager->getCurrentRunnableId()) {
+    } else if (cmd == "transient") {
+        p = cmdData.indexOf(' ');
+        Serial.println(cmdData.substring(0, p));
+        Serial.println(cmdData.substring(p + 1).toInt());
+        _appManager->setTransientRunnable(cmdData.substring(0, p), cmdData.substring(p + 1).toInt());
+    } else if (cmd == String("app/") + _appManager->getCurrentRunnableId()) {
         _appManager->getCurrentRunnable()->messageReceived(cmdData);
     }
 }

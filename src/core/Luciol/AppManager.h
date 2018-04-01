@@ -21,15 +21,21 @@ class AppManager : public Singleton<AppManager> {
         Runnable* previousRunnable = NULL;
         bool      shouldWakeUpApp  = false;
 
+        Runnable* transientRunnable = NULL;
+        unsigned long int transientStart;
+        unsigned long int transientEnd;
+
         std::map<String, Runnable*> appsById;
 
     public:
 
         void      loop();
-        void      setRunnable(String id);
+        bool      setRunnable(String id);
         void      registerApp(String id, Runnable* runnable);
         String    getCurrentRunnableId();
         Runnable* getCurrentRunnable();
+
+        void      setTransientRunnable(String id, unsigned long duration);
 
 };
 

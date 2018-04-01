@@ -54,6 +54,7 @@ D2B/paused          | 4                  | Device number '4' has reached its ani
 #include "apps/Timer/TimerApp.h"
 #include "apps/Rainbow/RainbowApp.h"
 #include "apps/Gradient/GradientApp.h"
+#include "apps/Flash/FlashApp.h"
 
 #include "core/Luciol/PropertiesAnimator.h"
 
@@ -73,11 +74,13 @@ void setup() {
 
   appManager = AppManager::get();
   appManager->registerApp("spectrum", new SpectrumAnalyzerApp);
-  appManager->registerApp("text", new TextApp);
+  appManager->registerApp("markee", new TextApp);
   appManager->registerApp("gradient", new GradientApp);
   appManager->registerApp("rainbow", new RainbowApp);
   appManager->registerApp("timer", new TimerApp);
   appManager->registerApp("clock", new ClockApp);
+
+  appManager->registerApp("flash", new FlashApp);
 
   display = Display::get();
 
