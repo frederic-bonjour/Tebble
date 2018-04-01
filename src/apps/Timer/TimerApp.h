@@ -29,7 +29,7 @@ class TimerApp : public Runnable {
         
         void willStart(GraphicContext* gc, Ambience* ambience);
 
-        void handleMessage(String data);
+        void messageReceived(String data);
 };
 
 #endif

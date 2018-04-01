@@ -22,7 +22,7 @@ class RainbowApp : public Runnable {
         void paintSides(GraphicContext* gc, Ambience* ambience);
         void paintUnique(GraphicContext* gc, Ambience* ambience);
 
-        void handleMessage(String data);
+        void messageReceived(String data);
 };
 
 #endif

@@ -74,7 +74,7 @@ void RainbowApp::paintUnique(GraphicContext* gc, Ambience* ambience) {
 }
 
 
-void RainbowApp::handleMessage(String data) {
+void RainbowApp::messageReceived(String data) {
     if (data == "plain") {
         mode = PLAIN;
     } else if (data == "sides") {

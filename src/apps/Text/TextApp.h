@@ -30,7 +30,7 @@ class TextApp : public Runnable {
         void setText(String t);
         void setText(String t, String f);
 
-        void handleMessage(String data);
+        void messageReceived(String data);
 };
 
 #endif

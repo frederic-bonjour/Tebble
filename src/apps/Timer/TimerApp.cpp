@@ -135,7 +135,7 @@ void TimerApp::willStart(GraphicContext* gc, Ambience* ambience) {
 }
 
 
-void TimerApp::handleMessage(String data) {
+void TimerApp::messageReceived(String data) {
     if (data == "reset") {
         reset();
     } else if (data.startsWith("set ")) {

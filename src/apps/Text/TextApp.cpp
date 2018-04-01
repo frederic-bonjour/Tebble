@@ -58,7 +58,7 @@ void TextApp::setText(String t, String f) {
 }
 
 
-void TextApp::handleMessage(String data) {
+void TextApp::messageReceived(String data) {
     if (data.startsWith("font:")) {
         fontName = data.substring(5);
         fontName.trim();
