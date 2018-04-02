@@ -1,14 +1,14 @@
-#ifndef _FlashApp_H_
-#define _FlashApp_H_
+#ifndef _StroboscopeApp_H_
+#define _StroboscopeApp_H_
 
 #include "../../core/Luciol/Runnable.h"
 #include "../../core/Luciol/Ambience.h"
 
 
-class FlashApp : public Runnable {
-    //float opacity;
+class StroboscopeApp : public Runnable {
+    bool on = true;
     public:
-        //void run(unsigned long msSinceLastRun);
+        void run(unsigned long time);
         void paint(GraphicContext* gc, Ambience* ambience);
 };
 

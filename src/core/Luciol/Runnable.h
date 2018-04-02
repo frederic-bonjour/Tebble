@@ -18,7 +18,13 @@ class Runnable {
             repaintRequested = true;
         }
         
-        virtual void run(unsigned long msSinceLastRun) {};
+        virtual void run(unsigned long msSinceLastRun) {
+            requestAnimationFrame();
+        };
+
+        virtual void runTransient(unsigned long msSinceLastRun, float progress) {
+            run(msSinceLastRun);
+        };
 
     public:
 
@@ -27,6 +33,15 @@ class Runnable {
             unsigned long now = millis();
             if (now - lastRunMs > getRunInterval()) {
                 run(now - lastPaintMs);
+                lastRunMs = now;
+            }
+        }
+
+        void loopTransient(float progress) {
+            repaintRequested = false;
+            unsigned long now = millis();
+            if (now - lastRunMs > getRunInterval()) {
+                runTransient(now - lastPaintMs, progress);
                 lastRunMs = now;
             }
         }

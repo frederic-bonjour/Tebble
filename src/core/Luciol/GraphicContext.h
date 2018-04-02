@@ -31,6 +31,7 @@ class GraphicContext {
     ~GraphicContext();
 
     GraphicContext* setPixel(int16_t x, int16_t y, RgbColor color);
+    GraphicContext* setPixel(int16_t x, int16_t y, RgbColor color, float alpha);
     RgbColor getPixel(int16_t x, int16_t y);
     GraphicContext* plot(int16_t x, int16_t y);
 

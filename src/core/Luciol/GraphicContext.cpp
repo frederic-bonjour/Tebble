@@ -59,6 +59,18 @@ GraphicContext* GraphicContext::setPixel(int16_t x, int16_t y, RgbColor color) {
 }
 
 
+GraphicContext* GraphicContext::setPixel(int16_t x, int16_t y, RgbColor color, float alpha) {
+  if (x < 0 || x >= width || y < 0 || y >= height) {
+    return this;
+  }
+  if (y & 1) {
+    x = width - 1 - x;
+  }
+  pixels[x + y * width] = gamma.Correct(color);
+  return setPixel(x, y, RgbColor::LinearBlend(pixels[x + y * width], gamma.Correct(color), alpha));
+}
+
+
 GraphicContext* GraphicContext::plot(int16_t x, int16_t y) {
   return setPixel(x, y, drawColor);
 }

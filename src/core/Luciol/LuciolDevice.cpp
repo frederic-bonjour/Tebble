@@ -215,7 +215,6 @@ void LuciolDevice::initDeviceIdentity() {
     while (client.available()) {
         line = client.readStringUntil('\n');
         line.trim();
-        Serial.println(line);
         if (firstLine && !line.startsWith("HTTP/1.1 200")) {
             break;
         }

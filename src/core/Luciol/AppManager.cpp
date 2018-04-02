@@ -30,7 +30,8 @@ void AppManager::setTransientRunnable(String id, unsigned long duration) {
     std::map<String, Runnable*>::iterator iter = appsById.find(id);
     if (iter != appsById.end()) {
         transientRunnable = appsById[id];
-        transientEnd = millis() + duration;
+        transientStart = millis();
+        transientEnd = transientStart + duration;
     } else {
         transientRunnable = NULL;
     }
@@ -48,8 +49,11 @@ void AppManager::loop() {
 
     if (transientRunnable && transientEnd > millis()) {
 
+        //float transientProgress = (millis() - transientStart) / (transientEnd - transientStart);
         transientRunnable->loop();
-        transientRunnable->paint(gc, amb);
+        if (transientRunnable->shouldRepaint()) {
+            transientRunnable->paint(gc, amb);
+        }
 
     } else {
         transientRunnable = NULL;
