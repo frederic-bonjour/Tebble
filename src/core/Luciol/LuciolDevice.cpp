@@ -88,6 +88,12 @@ void mqttMessageReceived(char* topic, byte* payload, unsigned int length) {
 
     if (cmd == "app") {
         _appManager->setRunnable(cmdData);
+    } else if (cmd == "ApAm") {
+        p = cmdData.indexOf('/');
+        String appId = cmdData.substring(0, p);
+        String ambId = cmdData.substring(p + 1);
+        _appManager->setRunnable(appId);
+        _ambienceManager->setAmbience(ambId);
     } else if (cmd == "ambience") {
         _ambienceManager->setAmbience(cmdData);
     } else if (cmd == "resume") {
@@ -96,8 +102,6 @@ void mqttMessageReceived(char* topic, byte* payload, unsigned int length) {
         
     } else if (cmd == "transient") {
         p = cmdData.indexOf(' ');
-        Serial.println(cmdData.substring(0, p));
-        Serial.println(cmdData.substring(p + 1).toInt());
         _appManager->setTransientRunnable(cmdData.substring(0, p), cmdData.substring(p + 1).toInt());
     } else if (cmd == String("app/") + _appManager->getCurrentRunnableId()) {
         _appManager->getCurrentRunnable()->messageReceived(cmdData);
