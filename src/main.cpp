@@ -55,8 +55,7 @@ D2B/paused          | 4                  | Device number '4' has reached its ani
 #include "apps/Rainbow/RainbowApp.h"
 #include "apps/Gradient/GradientApp.h"
 #include "apps/Flash/FlashApp.h"
-
-#include "core/Luciol/PropertiesAnimator.h"
+#include "apps/Stroboscope/StroboscopeApp.h"
 
 
 // ----------------------------------------------------------------------------
@@ -81,6 +80,7 @@ void setup() {
   appManager->registerApp("clock", new ClockApp);
 
   appManager->registerApp("flash", new FlashApp);
+  appManager->registerApp("stroboscope", new StroboscopeApp);
 
   display = Display::get();
 
