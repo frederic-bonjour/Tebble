@@ -59,11 +59,11 @@ void TextApp::setText(String t, String f) {
 
 
 void TextApp::messageReceived(String data) {
-    if (data.startsWith("font:")) {
+    if (data.startsWith("font=")) {
         fontName = data.substring(5);
         fontName.trim();
         fontChanged = true;
-    } else if (data.startsWith("text:")) {
+    } else if (data.startsWith("text=")) {
         text = data.substring(5);
         text.trim();
         textChanged = true;
