@@ -1,8 +1,11 @@
 #include "Ambience.h"
 #include <NeoPixelBus.h>
 
+
 bool Ambience::inverted = false;
 bool Ambience::gradient = false;
+bool Ambience::changed  = false;
+
 RgbColor Ambience::color1;
 RgbColor Ambience::color2;
 RgbColor Ambience::color3;
@@ -48,4 +51,17 @@ void Ambience::updateFromString(String def) {
   Serial.printf("New ambience: (%d,%d,%d) (%d,%d,%d)\r\n", r1, g1, b1, r2, g2, b2);
   color1 = RgbColor(r1, g1, b1);
   color2 = RgbColor(r2, g2, b2);
+  changed = true;
+}
+
+
+void Ambience::changeHandled()
+{
+  changed = false;
+}
+
+
+bool Ambience::hasChanged()
+{
+  return changed;
 }

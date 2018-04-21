@@ -43,7 +43,6 @@ void AppManager::loop() {
 
     if (transientRunnable && transientEnd > millis()) {
 
-        //float transientProgress = (millis() - transientStart) / (transientEnd - transientStart);
         transientRunnable->loop();
         if (transientRunnable->shouldRepaint()) {
             transientRunnable->paint(gc);
@@ -64,10 +63,17 @@ void AppManager::loop() {
                 shouldWakeUpApp = false;
             }
             currentRunnable->loop();
+            if (Ambience::hasChanged()) {
+                currentRunnable->ambienceDidChange(gc);
+            }
             if (hasJustStarted || currentRunnable->shouldRepaint()) {
                 gc->clear();
                 currentRunnable->doPaint(gc);
+            } else if (Ambience::hasChanged()) {
+                gc->clear();
+                currentRunnable->paint(gc);
             }
+            Ambience::changeHandled();
         }
     }
 }

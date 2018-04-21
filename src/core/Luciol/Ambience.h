@@ -15,6 +15,8 @@ class Ambience
     static RgbColor color3;
     static bool inverted;
 
+    static bool changed;
+
   public:
 
     static RgbColor getPrimaryColor();
@@ -23,6 +25,8 @@ class Ambience
     static bool isGradient();
     static void inverse();
     static void updateFromString(String ambDef);
+    static void changeHandled();
+    static bool hasChanged();
 };
 
 #endif
