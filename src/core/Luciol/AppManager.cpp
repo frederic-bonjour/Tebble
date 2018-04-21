@@ -41,18 +41,12 @@ void AppManager::setTransientRunnable(String id, unsigned long duration) {
 void AppManager::loop() {
     GraphicContext* gc = display->getContext();
 
-    static Ambience *prevAmbience = NULL;
-    static bool ambienceInverted = false;
-    Ambience *amb = AmbienceManager::get()->getAmbience();
-    bool ambienceChanged = prevAmbience != amb || ambienceInverted != amb->isInverted();
-    ambienceInverted = amb->isInverted();
-
     if (transientRunnable && transientEnd > millis()) {
 
         //float transientProgress = (millis() - transientStart) / (transientEnd - transientStart);
         transientRunnable->loop();
         if (transientRunnable->shouldRepaint()) {
-            transientRunnable->paint(gc, amb);
+            transientRunnable->paint(gc);
         }
 
     } else {
@@ -66,23 +60,15 @@ void AppManager::loop() {
         bool hasJustStarted = shouldWakeUpApp;
         if (currentRunnable != NULL) {
             if (shouldWakeUpApp) {
-                currentRunnable->willStart(gc, amb);
+                currentRunnable->willStart(gc);
                 shouldWakeUpApp = false;
             }
             currentRunnable->loop();
-            if (ambienceChanged) {
-                currentRunnable->ambienceDidChange(gc, amb);
-                prevAmbience = amb;
-            }
             if (hasJustStarted || currentRunnable->shouldRepaint()) {
                 gc->clear();
-                currentRunnable->doPaint(gc, amb);
-            } else if (ambienceChanged) {
-                gc->clear();
-                currentRunnable->paint(gc, amb);
+                currentRunnable->doPaint(gc);
             }
         }
-
     }
 }
 

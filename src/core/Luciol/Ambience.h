@@ -7,28 +7,22 @@
 class Ambience
 {
   private:
-    bool gradient;
-    String name;
-    RgbColor color1;
-    RgbColor color2;
-    RgbColor color3;
-    bool inverted = false;
+    Ambience();
+
+    static bool gradient;
+    static RgbColor color1;
+    static RgbColor color2;
+    static RgbColor color3;
+    static bool inverted;
 
   public:
 
-    Ambience(String name, RgbColor c1, RgbColor c2, bool g);
-    Ambience(String, RgbColor c1, RgbColor c2, RgbColor c3);
-
-    String getName();
-    RgbColor getPrimaryColor();
-    RgbColor getSecondaryColor();
-    RgbColor getAuxiliaryColor();
-
-    bool isGradient();
-    void inverse();
-    bool isInverted() { return inverted; };
-
-    static Ambience* createFromString(String ambDef);
+    static RgbColor getPrimaryColor();
+    static RgbColor getSecondaryColor();
+    static RgbColor getAuxiliaryColor();
+    static bool isGradient();
+    static void inverse();
+    static void updateFromString(String ambDef);
 };
 
 #endif

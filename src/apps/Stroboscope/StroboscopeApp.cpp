@@ -17,7 +17,7 @@ void StroboscopeApp::run(unsigned long time) {
 }
 
 
-void StroboscopeApp::paint(GraphicContext* gc, Ambience* ambience) {
+void StroboscopeApp::paint(GraphicContext* gc) {
     if (on) {
         gc->setFillColor(RgbColor(255, 255, 255));
         gc->fill();

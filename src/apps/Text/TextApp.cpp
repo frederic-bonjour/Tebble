@@ -8,8 +8,8 @@ TextApp::TextApp() {
 }
 
 
-void TextApp::willStart(GraphicContext* gc, Ambience* ambience) {
-    Runnable::willStart(gc, ambience);
+void TextApp::willStart(GraphicContext* gc) {
+    Runnable::willStart(gc);
     gc->setFont(fontName);
 }
 
@@ -25,7 +25,7 @@ void TextApp::run(unsigned long time) {
 }
 
 
-void TextApp::paint(GraphicContext* gc, Ambience* ambience) {
+void TextApp::paint(GraphicContext* gc) {
     if (fontChanged) {
         gc->setFont(fontName);
         fontChanged = false;
@@ -39,8 +39,8 @@ void TextApp::paint(GraphicContext* gc, Ambience* ambience) {
         x = -(gc->getWidth() - 1);
     }
 
-    gc->setFillColor(ambience->getSecondaryColor());
-    gc->setDrawColor(ambience->getPrimaryColor());
+    gc->setFillColor(Ambience::getSecondaryColor());
+    gc->setDrawColor(Ambience::getPrimaryColor());
 
     gc->fill();
     gc->text(-x, 9, text);

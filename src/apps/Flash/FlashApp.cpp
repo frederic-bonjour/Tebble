@@ -12,7 +12,7 @@ void FlashApp::run(unsigned long msSinceLastRun) {
 }
 */
 
-void FlashApp::paint(GraphicContext* gc, Ambience* ambience) {
+void FlashApp::paint(GraphicContext* gc) {
     /*
     RgbColor white(255, 255, 255);
     for (int16_t x=0; x<-gc->getWidth(); x++) {

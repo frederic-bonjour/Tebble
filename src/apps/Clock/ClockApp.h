@@ -18,8 +18,8 @@ class ClockApp : public Runnable {
     public:
 
         void run(unsigned long time);
-        void paint(GraphicContext* gc, Ambience* ambience);
-        void willStart(GraphicContext* gc, Ambience* ambience);
+        void paint(GraphicContext* gc);
+        void willStart(GraphicContext* gc);
 };
 
 #endif

@@ -1,24 +1,11 @@
 #include "Ambience.h"
 #include <NeoPixelBus.h>
 
-Ambience::Ambience(String _name, RgbColor c1, RgbColor c2, bool g)
-{
-  name = _name;
-  color1 = c1;
-  color2 = c2;
-  color3 = 0;
-  gradient = g;
-}
-
-
-Ambience::Ambience(String _name, RgbColor c1, RgbColor c2, RgbColor c3)
-{
-  name = _name;
-  color1 = c1;
-  color2 = c2;
-  color3 = c3;
-  gradient = true;
-}
+bool Ambience::inverted = false;
+bool Ambience::gradient = false;
+RgbColor Ambience::color1;
+RgbColor Ambience::color2;
+RgbColor Ambience::color3;
 
 
 RgbColor Ambience::getPrimaryColor()
@@ -39,12 +26,6 @@ RgbColor Ambience::getAuxiliaryColor()
 }
 
 
-String Ambience::getName()
-{
-  return name;
-}
-
-
 bool Ambience::isGradient()
 {
   return gradient;
@@ -57,13 +38,14 @@ void Ambience::inverse()
 }
 
 
-Ambience* Ambience::createFromString(String def) {
-  char name[30];
+void Ambience::updateFromString(String def) {
   int r1, g1, b1;
   int r2, g2, b2;
   char gradient;
-  sscanf(def.c_str(), "%s %d %d %d %d %d %d %c", name, &r1, &g1, &b1, &r2, &g2, &b2, &gradient);
-  Serial.printf("New ambience: %s (%d,%d,%d) (%d,%d,%d) %c\r\n", name, r1, g1, b1, r2, g2, b2, gradient);
-  Ambience* amb = new Ambience(String(name), RgbColor(r1, g1, b1), RgbColor(r2, g2, b2), gradient == 'T');
-  return amb;
+  //sscanf(def.c_str(), "%d %d %d %d %d %d %c", &r1, &g1, &b1, &r2, &g2, &b2, &gradient);
+  sscanf(def.c_str(), "%d %d %d %d %d %d", &r1, &g1, &b1, &r2, &g2, &b2);
+  //Serial.printf("New ambience: (%d,%d,%d) (%d,%d,%d) %c\r\n", r1, g1, b1, r2, g2, b2, gradient);
+  Serial.printf("New ambience: (%d,%d,%d) (%d,%d,%d)\r\n", r1, g1, b1, r2, g2, b2);
+  color1 = RgbColor(r1, g1, b1);
+  color2 = RgbColor(r2, g2, b2);
 }

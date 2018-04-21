@@ -13,7 +13,7 @@ class SpectrumAnalyzerApp : public Runnable {
     public:
 
         void run(unsigned long time);
-        void paint(GraphicContext* gc, Ambience* ambience);
+        void paint(GraphicContext* gc);
         void handleMessage(String data);
 };
 

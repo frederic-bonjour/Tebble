@@ -9,7 +9,7 @@ class UIProgress : public Runnable {
 
     public:
         void setProgress(float p);
-        void run(GraphicContext* gc, Ambience* ambience, unsigned long time);
+        void run(GraphicContext* gc, unsigned long time);
 };
 
 #endif

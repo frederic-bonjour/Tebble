@@ -46,16 +46,16 @@ class Runnable {
             }
         }
 
-        void doPaint(GraphicContext* gc, Ambience* ambience) {
-            paint(gc, ambience);
+        void doPaint(GraphicContext* gc) {
+            paint(gc);
             lastPaintMs = millis();
         };
 
-        virtual void paint(GraphicContext* gc, Ambience* ambience) = 0;
+        virtual void paint(GraphicContext* gc) = 0;
 
-        virtual void ambienceDidChange(GraphicContext* gc, Ambience* ambience) {
-            gc->setFillColor(ambience->getSecondaryColor());
-            gc->setDrawColor(ambience->getPrimaryColor());
+        virtual void ambienceDidChange(GraphicContext* gc) {
+            gc->setFillColor(Ambience::getSecondaryColor());
+            gc->setDrawColor(Ambience::getPrimaryColor());
         };
 
         virtual bool shouldRepaint() {
@@ -75,9 +75,9 @@ class Runnable {
 
         virtual void willStop() {};
 
-        virtual void willStart(GraphicContext* gc, Ambience* ambience) {
-            gc->setFillColor(ambience->getSecondaryColor());
-            gc->setDrawColor(ambience->getPrimaryColor());
+        virtual void willStart(GraphicContext* gc) {
+            gc->setFillColor(Ambience::getSecondaryColor());
+            gc->setDrawColor(Ambience::getPrimaryColor());
         };
 
 };

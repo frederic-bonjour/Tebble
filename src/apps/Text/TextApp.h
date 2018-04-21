@@ -19,13 +19,13 @@ class TextApp : public Runnable {
 
     protected:
         
-        void willStart(GraphicContext* gc, Ambience* ambience);
+        void willStart(GraphicContext* gc);
 
     public:
 
         TextApp();
         void run(unsigned long time);
-        void paint(GraphicContext* gc, Ambience* ambience);
+        void paint(GraphicContext* gc);
         
         void setText(String t);
         void setText(String t, String f);

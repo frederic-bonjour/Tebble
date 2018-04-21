@@ -23,7 +23,7 @@ void SpectrumAnalyzerApp::run(unsigned long time) {
 }
 
 
-void SpectrumAnalyzerApp::paint(GraphicContext* gc, Ambience* ambience) {
+void SpectrumAnalyzerApp::paint(GraphicContext* gc) {
     uint16_t y2 = gc->getHeight() - 1;
     for (uint8_t f = 0; f < 7; f++) {
         for (uint8_t y = 0; y < values[f]; y++) {

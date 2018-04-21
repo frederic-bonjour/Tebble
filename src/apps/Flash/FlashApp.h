@@ -9,7 +9,7 @@ class FlashApp : public Runnable {
     //float opacity;
     public:
         //void run(unsigned long msSinceLastRun);
-        void paint(GraphicContext* gc, Ambience* ambience);
+        void paint(GraphicContext* gc);
 };
 
 #endif

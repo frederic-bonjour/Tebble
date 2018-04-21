@@ -11,22 +11,22 @@ void RainbowApp::run(unsigned long time) {
 }
 
 
-void RainbowApp::paint(GraphicContext* gc, Ambience* ambience) {
+void RainbowApp::paint(GraphicContext* gc) {
     switch (mode) {
         case SIDES:
-            paintSides(gc, ambience);
+            paintSides(gc);
             break;
         case UNIQUE:
-            paintUnique(gc, ambience);
+            paintUnique(gc);
             break;
         default:
-            paintPlain(gc, ambience);
+            paintPlain(gc);
             break;
     }
 }
 
 
-void RainbowApp::paintSides(GraphicContext* gc, Ambience* ambience) {
+void RainbowApp::paintSides(GraphicContext* gc) {
     float step = 255.0 / (gc->getWidth() * 2 + (gc->getHeight()-2) * 2);
     float p = 0.0;
 
@@ -53,7 +53,7 @@ void RainbowApp::paintSides(GraphicContext* gc, Ambience* ambience) {
 }
 
 
-void RainbowApp::paintPlain(GraphicContext* gc, Ambience* ambience) {
+void RainbowApp::paintPlain(GraphicContext* gc) {
     float step = 255.0 / (gc->getHeight() * 1.5);
     float p = 0.0;
 
@@ -68,7 +68,7 @@ void RainbowApp::paintPlain(GraphicContext* gc, Ambience* ambience) {
 }
 
 
-void RainbowApp::paintUnique(GraphicContext* gc, Ambience* ambience) {
+void RainbowApp::paintUnique(GraphicContext* gc) {
     gc->setFillColor(gc->colorWheel(pos));
     gc->fill();
 }

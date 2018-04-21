@@ -32,8 +32,8 @@ void drawSeconds(GraphicContext* gc, uint8_t s, RgbColor color, bool dim) {
 }
 
 
-void ClockApp::paint(GraphicContext* gc, Ambience* ambience) {
-    gc->setDrawColor(ambience->getPrimaryColor());
+void ClockApp::paint(GraphicContext* gc) {
+    gc->setDrawColor(Ambience::getPrimaryColor());
 
     uint8_t* mask;
     uint8_t w;
@@ -56,11 +56,11 @@ void ClockApp::paint(GraphicContext* gc, Ambience* ambience) {
     w = gc->getBitMaskMaxWidth(mask, DigitsTransitions::LINES);
     gc->drawBitMask(9 - (6-w), 9, mask, 6, DigitsTransitions::LINES);
 
-    RgbColor c = ambience->getSecondaryColor();
+    RgbColor c = Ambience::getSecondaryColor();
     for (uint8_t s = 0; s < seconds; s++) {
         drawSeconds(gc, s, c, true);
     }
-    drawSeconds(gc, seconds, ambience->getSecondaryColor(), false);
+    drawSeconds(gc, seconds, Ambience::getSecondaryColor(), false);
 }
 
 
@@ -119,7 +119,7 @@ void ClockApp::run(unsigned long time) {
 }
 
 
-void ClockApp::willStart(GraphicContext* gc, Ambience* ambience) {
+void ClockApp::willStart(GraphicContext* gc) {
     Clock::sync();
 
     int hours = Clock::getHours();

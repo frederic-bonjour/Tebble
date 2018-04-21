@@ -6,8 +6,6 @@
 #include "Runnable.h"
 #include "Singleton.h"
 
-#include "AmbienceManager.h"
-
 
 class AppManager : public Singleton<AppManager> {
 

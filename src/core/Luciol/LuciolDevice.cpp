@@ -7,13 +7,7 @@
 #include "Display.h"
 #include "GraphicContext.h"
 
-#include "AmbienceManager.h"
 #include "Clock.h"
-
-
-#include "AmbienceManager.h"
-AmbienceManager* _ambienceManager = AmbienceManager::get();
-
 
 #include "AppManager.h"
 AppManager*      _appManager      = AppManager::get();
@@ -65,10 +59,6 @@ void LuciolDevice::init(Display* d) {
     bootSequenceStepOK();
 
     bootSequenceStep();
-    _ambienceManager->load();
-    bootSequenceStepOK();
-
-    bootSequenceStep();
     deviceStarted();
     bootSequenceStepOK();
 }
@@ -89,13 +79,13 @@ void mqttMessageReceived(char* topic, byte* payload, unsigned int length) {
     if (cmd == "app") {
         _appManager->setRunnable(cmdData);
     } else if (cmd == "ApAm") {
-        p = cmdData.indexOf('/');
+        p = cmdData.indexOf(' ');
         String appId = cmdData.substring(0, p);
         String ambId = cmdData.substring(p + 1);
         _appManager->setRunnable(appId);
-        _ambienceManager->setAmbience(ambId);
+        Ambience::updateFromString(ambId);
     } else if (cmd == "ambience") {
-        _ambienceManager->setAmbience(cmdData);
+        Ambience::updateFromString(cmdData);
     } else if (cmd == "resume") {
         
     } else if (cmd == "locate") {
@@ -106,6 +96,11 @@ void mqttMessageReceived(char* topic, byte* payload, unsigned int length) {
     } else if (cmd == String("app/") + _appManager->getCurrentRunnableId()) {
         _appManager->getCurrentRunnable()->messageReceived(cmdData);
     }
+
+    // app luciol@4:1/5
+    //     run app luciol
+    //     subscribe to topic 'G/4'
+    //     when stop is reached, send 'StopFrom:1'
 }
 
 
@@ -206,7 +201,7 @@ void LuciolDevice::initDeviceIdentity() {
 
     unsigned long timeout = millis();
     while (client.available() == 0) {
-        if (millis() - timeout > HTTP_TIMEOUT_MS) {
+        if (millis() - timeout > 20000) {
             Serial.println("initDeviceIdentity: client Timeout!");
             client.stop();
             return;

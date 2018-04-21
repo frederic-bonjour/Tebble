@@ -16,11 +16,11 @@ class RainbowApp : public Runnable {
     public:
     
         void run(unsigned long time);
-        void paint(GraphicContext* gc, Ambience* ambience);
+        void paint(GraphicContext* gc);
 
-        void paintPlain(GraphicContext* gc, Ambience* ambience);
-        void paintSides(GraphicContext* gc, Ambience* ambience);
-        void paintUnique(GraphicContext* gc, Ambience* ambience);
+        void paintPlain(GraphicContext* gc);
+        void paintSides(GraphicContext* gc);
+        void paintUnique(GraphicContext* gc);
 
         void messageReceived(String data);
 };

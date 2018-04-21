@@ -66,7 +66,7 @@ void TimerApp::run(unsigned long time) {
 }
 
 
-void TimerApp::paint(GraphicContext* gc, Ambience* ambience) {
+void TimerApp::paint(GraphicContext* gc) {
     if (stopped) {
         gc->drawImage(0, 0, "/bell.bmp");
         return;
@@ -76,9 +76,9 @@ void TimerApp::paint(GraphicContext* gc, Ambience* ambience) {
     gc->fill();
 
     if (remaining <= 10) {
-        gc->setDrawColor(RgbColor::LinearBlend(RgbColor(255, 0, 0), ambience->getPrimaryColor(), remaining/30.0));
+        gc->setDrawColor(RgbColor::LinearBlend(RgbColor(255, 0, 0), Ambience::getPrimaryColor(), remaining/30.0));
     } else {
-        gc->setDrawColor(ambience->getPrimaryColor());
+        gc->setDrawColor(Ambience::getPrimaryColor());
     }
 
     uint8_t* mask;
@@ -130,7 +130,7 @@ void TimerApp::reset() {
 }
 
 
-void TimerApp::willStart(GraphicContext* gc, Ambience* ambience) {
+void TimerApp::willStart(GraphicContext* gc) {
     reset();
 }
 

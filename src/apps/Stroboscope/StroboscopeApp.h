@@ -9,7 +9,7 @@ class StroboscopeApp : public Runnable {
     bool on = true;
     public:
         void run(unsigned long time);
-        void paint(GraphicContext* gc, Ambience* ambience);
+        void paint(GraphicContext* gc);
 };
 
 #endif
