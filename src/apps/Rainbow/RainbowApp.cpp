@@ -75,11 +75,14 @@ void RainbowApp::paintUnique(GraphicContext* gc) {
 
 
 void RainbowApp::messageReceived(String data) {
-    if (data == "plain") {
-        mode = PLAIN;
-    } else if (data == "sides") {
-        mode = SIDES;
-    } else if (data == "unique") {
-        mode = UNIQUE;
+    if (data.startsWith("display=")) {
+        data = data.substring(8);
+        if (data == "plain") {
+            mode = PLAIN;
+        } else if (data == "sides") {
+            mode = SIDES;
+        } else if (data == "unique") {
+            mode = UNIQUE;
+        }
     }
 }
